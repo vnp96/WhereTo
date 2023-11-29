@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename = 'styles.css')}}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <title>Document</title>
+</head>
+
+<body>
+    <header>
+        <h2><a style="color: white; text-decoration:none" href="/">SSE Lab coursework</a></h2>
+    </header>
+    <div style="height: 30px;"></div>
+
+    {% if username %}
+    <div style="display: flex; text-align: center; flex-direction: column;">
+        <p>Hello {{ username }}</p>
+        <br>
+    <table style="font-size: small;" class="table">
+        <tr>
+            <th scope="col">Repository name</th>
+            <th scope="col">Repository link</th>
+            <th scope="col">Date last modified</th>
+            <th scope="col">Last commit hash</th>
+            <th scope="col">Last commit message</th>
+            <th scope="col">Number commits</th>
+        </tr>
+        {% if repos %}
+        {% for repo in repos %}
+        <tr>
+            <td scope="row"><a href="{{ repo['html_url'] }}">{{ repo['full_name'].split('/')[1] }}</a></td>
+            <td scope="row">{{ repo['clone_url'] }}</td>
+            <td scope="row">{{ repo['updated_at'] }}</td>
+            <td scope="row">{{ repo['newest_commit'] }}</td>
+            <td scope="row">{{ repo['newest_commit_message'] }}</td>
+            <td scope="row">{{ repo['num_commits'] }}</td>
+        </tr>
+        {% endfor %}
+        {% endif %}
+    </table>
+    </div>
+    <br><br>
+    <div style="display: flex; justify-content: center; text-align: center;">
+        <a class="btn btn-primary" href="/apis">go back</a>
+    </div>
+    {% else %}
+    <form style="display: flex; justify-content: center; text-align: center;" action="/apis" method="post">
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username">
+        <input class="btn btn-primary d-inline-flex align-items-center" type="submit" value="Submit">
+    </form>
+
+    <br><br>
+    <div style="display: flex; justify-content: center; text-align: center;">
+        <a class="btn btn-primary" href="/">go back</a>
+    </div>
+    {% endif %}
+
+    <div style="height: 50px;"></div>
+
+    <footer style="display: flex; width: 100%; justify-content: center;" class="position-absolute bottom-0 end-0">
+        <div>&copy; 2023 HKJ</div>
+    </footer>
+
+
+</body>
+
+</html>
