@@ -1,5 +1,9 @@
 /* Reset some default styles */
 body {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    width: 100%;
     margin: 0;
     padding: 0;
 }
@@ -12,16 +16,21 @@ body {
     text-align: center;
 }
 
-.subcontainer{
+/* .subcontainer{
     display: flex;
     align-items: center;
     text-align: center;
-}
+} */
 
 /* Style the header */
 header {
+    position: relative;
+    top: 0;
     background-color: #333;
+    display: flex;
     color: #fff;
+    justify-content: space-between;
+    align-items: center;
     text-align: center;
     padding: 10px;
 }
@@ -44,6 +53,10 @@ ul {
 
 /* Style the footer */
 footer {
+    position: relative;
+    bottom: 0;
+    width: 100%; 
+    justify-content: center;
     background-color: #333;
     color: #fff;
     text-align: center;
