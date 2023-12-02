@@ -11,7 +11,7 @@ dbConnection = BorgDB()
 def index():
     got_dbconnection = False
     try:
-        conn = dbConnection.get_connection()
+        dbConnection.get_connection()
         got_dbconnection = True
     except Exception as e:
         print(e)
