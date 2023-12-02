@@ -1,24 +1,23 @@
 from flask import Flask, render_template, request
 import requests
-import psycopg as db
-import os
-import configparser
 from BorgDB import BorgDB
 
 app = Flask(__name__)
 
 dbConnection = BorgDB()
+
+
 @app.route("/")
 def index():
-    gotDbConnection = False
+    got_dbconnection = False
     try:
         conn = dbConnection.get_connection()
-        gotDbConnection = True
+        got_dbconnection = True
     except Exception as e:
         print(e)
         print("DB connection failed.")
 
-    return render_template("index.html", dbConnected = gotDbConnection)
+    return render_template("index.html", dbConnected=got_dbconnection)
 
 
 @app.route("/apis", methods=["GET", "POST"])

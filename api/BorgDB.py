@@ -2,8 +2,10 @@ import psycopg as db
 import os
 import configparser
 
+
 class BorgDB:
     _shared_state = {}
+
     # This attribute will be shared among all instances
     # enforces singleton for DB connection
 
