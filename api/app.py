@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request
 import requests
-from BorgDB import BorgDB
+from api.helpers.BorgDB import BorgDB
 
 app = Flask(__name__)
 
