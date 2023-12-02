@@ -26,6 +26,9 @@ class BorgDB:
                 config['connection']['user'] = os.environ.get("WHERE2DB_USR")
                 config['connection']['password'] = os.environ.get(
                     "WHERE2DB_PWD")
+                print("Trying to connect with environment variables " +
+                      os.environ.get("WHERE2DB_USR") + " " +
+                      os.environ.get("WHERE2DB_PWD"))
                 conn = db.connect(**config['connection'])
                 curs = conn.cursor()
                 curs.execute(config['dbqueries']['validation'])
