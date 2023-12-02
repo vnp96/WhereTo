@@ -21,19 +21,14 @@ class BorgDB:
     def _initialise_connection(self) -> bool:
         if 'DBConnection' not in self._shared_state:
             try:
-                print("Trying to connect with environment variables " +
-                      os.environ.get("WHERE2DB_USR") + " " +
-                      os.environ.get("WHERE2DB_PWD"))
                 config = configparser.ConfigParser()
                 config.read("db_details.ini")
                 config['connection']['user'] = os.environ.get("WHERE2DB_USR")
                 config['connection']['password'] = os.environ.get(
                     "WHERE2DB_PWD")
-                print("connection attempt ")
                 conn = db.connect(**config['connection'])
-                print("connection completed")
                 curs = conn.cursor()
-                curs.execute(config['dbqueries']['validation'])
+                curs.execute(config['dbQueries']['validation'])
                 rec = curs.fetchone()
                 if rec[0] != 'First trial':
                     raise Exception("DB connection validation failed.")
