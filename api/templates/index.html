@@ -21,6 +21,15 @@
                     <p style="color: yellowgreen;">Location C</p>
                     <span class="d-block small opacity-50">Event C</span>
                 </label>
+
+
+                {% if dbConnected %}
+
+                <label class="list-group-item rounded-3 py-3" for="listGroupCheckableRadios4">
+                    <p style="color: maroon;">Location D</p>
+                    <span class="d-block small opacity-50">D for DB Connection works!</span>
+                </label>
+                {%  endif %}
             </div>
 
             <img style="height: 210px" src="https://all.accor.com/magazine/imagerie/bloc-1-4fc1.jpg"
