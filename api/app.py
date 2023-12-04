@@ -36,9 +36,9 @@ def apis():
     postcode_start = "ec4r9ha" 
     ##postcode_start = request.form.get("postcode_start")
     for attraction in query:
-        postcode_end = attraction[0]
+        ##postcode_end = attraction[0]
         postcode_end = "sw72bx" #from database
-        response = requests.get("https://api.tfl.gov.uk/journey/journeyresults/+"postcode_start+"/to/"+ postcode_end)
+        response = requests.get("https://api.tfl.gov.uk/journey/journeyresults/"+postcode_start+"/to/"+ postcode_end)
         if response.status_code == 200:
             route[attraction[1]] = response.json()["journeys"]
             print(route)
