@@ -11,6 +11,7 @@ dbConnection = BorgDB()
 
 @app.route("/")
 def index():
+    # adding comments here for merge conflict
     return render_template("index.html")
 
 
