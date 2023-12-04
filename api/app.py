@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request
 import requests
 from api.helpers.BorgDB import BorgDB
+#import helpers.py
 
 # usage: flask --app=api/app.py run
 app = Flask(__name__)
@@ -38,38 +39,11 @@ def attractions_page():
 
 @app.route("/apis", methods=["GET", "POST"])
 def apis():
-    repos = [{}]
-    username = request.form.get("username")
-    if username:
-        response = requests.get("https://api.github.com/users/"
-                                + username + "/repos")
-        if response.status_code == 200:
-            repos = response.json()
-            for repo in repos:
-                url_raw = requests.get(repo["commits_url"][:-6])
-                url = url_raw.json()
-                if url_raw.status_code == 200:
-                    repo["newest_commit"] = url[0]["sha"]
-                    repo["newest_commit_message"] = url[0]["commit"]["message"]
-                    repo["num_commits"] = len(url)
-        elif response.status_code == 403:
-            repos[0]['full_name'] = ""
-            repos[0]['clone_url'] = "Too many requests, try again later!"
-            repos[0]['updated_at'] = ""
-            repos[0]['newest_commit'] = ""
-            repos[0]['newest_commit_message'] = ""
-            repos[0]['num_commits'] = ""
-    else:
-        response = "Not found"
-        repos = None
-    return render_template("response.html", username=username, repos=repos)
-
-
-@app.route("/query")
-def handle_query():
-    return process_query(request.args.get("q"))
-
-
-def process_query(word):
-    if "dinosaurs" in word:
-        return "Dinosaurs ruled the Earth 200 million years ago"
+    code_from = "ec4r9ha" #request.form.get("postcode_start")
+    code_to = "sw72bx" #from database
+    response = requests.get("https://api.tfl.gov.uk/journey/journeyresults/"+code_from+"/to/"
+                                + code_to)
+    if response.status_code == 200:
+        route = response.json()["journeys"][0]
+        print(route)
+    #return render_template("response.html", code_from=code_from, code_to=code_to, route=route)
