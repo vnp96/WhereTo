@@ -12,13 +12,28 @@ dbConnection = BorgDB()
 def index():
     got_dbconnection = False
     try:
-        dbConnection.get_connection()
         got_dbconnection = True
     except Exception as e:
         print(e)
         print("DB connection failed.")
 
     return render_template("index.html", dbConnected=got_dbconnection)
+
+
+@app.route("/attractions", methods=["POST"])
+def attractions_page():
+    postcode = request.form.get("inputPostCode")
+    print("postcode received = " + str(postcode))
+    got_dbconnection = False
+    try:
+        dbConnection.get_connection()
+        got_dbconnection = True
+    except Exception as e:
+        print(e)
+        print("DB connection failed.")
+
+    return render_template("attractions_list.html",
+                           dbConnected=got_dbconnection, post_code=postcode)
 
 
 @app.route("/apis", methods=["GET", "POST"])
