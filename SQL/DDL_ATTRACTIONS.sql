@@ -15,6 +15,3 @@ ALTER TABLE attractions
 ADD CONSTRAINT attractions_unique_name UNIQUE (name);
 
 commit;
-
-select * from attractions;
-DROP TABLE attractions;
