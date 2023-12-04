@@ -32,11 +32,14 @@ def attractions_page():
 
 @app.route("/apis", methods=["GET", "POST"])
 def apis():
-    code_from = "ec4r9ha" #request.form.get("postcode_start")
-    code_to = "sw72bx" #from database
-    response = requests.get("https://api.tfl.gov.uk/journey/journeyresults/"+code_from+"/to/"
-                                + code_to)
-    if response.status_code == 200:
-        route = response.json()["journeys"][0]
-        print(route)
-    # return render_template("response.html", code_from=code_from, code_to=code_to, route=route)
+    route ={}
+    postcode_start = "ec4r9ha" 
+    ##postcode_start = request.form.get("postcode_start")
+    for attraction in query:
+        postcode_end = attraction[0]
+        postcode_end = "sw72bx" #from database
+        response = requests.get("https://api.tfl.gov.uk/journey/journeyresults/+"postcode_start+"/to/"+ postcode_end)
+        if response.status_code == 200:
+            route[attraction[1]] = response.json()["journeys"]
+            print(route)
+    #return render_template("response.html", attraction, route=route)
