@@ -7,10 +7,12 @@
         <div style="height: 30px;"></div>
         <div class="subcontainer fade-in">
             <div class="list-group list-group-checkable d-grid gap-2 border-0">
-                <label class="list-group-item rounded-3 py-3" for="listGroupCheckableRadios1">
-                    <p style="color: royalblue;">Location A</p>
-                    <span class="d-block small opacity-50">Event A</span>
-                </label>
+                {% for attraction, data in dictionary.items()  %}
+                    <label class="list-group-item rounded-3 py-3" for="listGroupCheckableRadios1">
+                        <p style="color: royalblue;">{{attraction}}</p>
+                        <span class="d-block small opacity-50">{{data['duration']}} min to get there</span>
+                    </label>
+                {% endfor %}
 
                 <label class="list-group-item rounded-3 py-3" for="listGroupCheckableRadios2">
                     <p style="color: purple;">Location B</p>
