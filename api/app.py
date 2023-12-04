@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request
 import requests
 from api.helpers.BorgDB import BorgDB
-from api.helpers.fakeData import fakedata
+from api.sample_data.fakeData import fakedata
 #import helpers.py
 
 # usage: flask --app=api/app.py run
@@ -28,15 +28,15 @@ def attractions_page():
     except Exception as e:
         print(e)
         print("DB connection failed.")
+    print("DB connected") if got_dbconnection else None
+    
     route_dictionary = fakedata
-    print(route_dictionary)
-    ##route_dictionary = dictionary_routes()
-    return render_template("attractions_list.html",
-                           dbConnected=got_dbconnection, post_code=postcode, dictionary=route_dictionary)
+    
+    return render_template("attractions.html", post_code=postcode, dictionary=route_dictionary)
 
 
-def dictionary_routes():
-    route ={}
+def dictionary_routes(): #should take in the start postcode
+    route = {}
     postcode_start = "ec4r9ha" ##fake value
     ##postcode_start = request.form.get("inputPostCode")
     ##for attraction in query:
