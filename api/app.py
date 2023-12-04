@@ -11,14 +11,7 @@ dbConnection = BorgDB()
 
 @app.route("/")
 def index():
-    got_dbconnection = False
-    try:
-        got_dbconnection = True
-    except Exception as e:
-        print(e)
-        print("DB connection failed.")
-
-    return render_template("index.html", dbConnected=got_dbconnection)
+    return render_template("index.html")
 
 
 @app.route("/attractions", methods=["POST"])
@@ -46,4 +39,4 @@ def apis():
     if response.status_code == 200:
         route = response.json()["journeys"][0]
         print(route)
-    #return render_template("response.html", code_from=code_from, code_to=code_to, route=route)
+    # return render_template("response.html", code_from=code_from, code_to=code_to, route=route)
