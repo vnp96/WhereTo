@@ -11,7 +11,9 @@ dbConnection = BorgDB()
 
 @app.route("/")
 def index():
+    # adding for sample merge
     return render_template("index.html")
+    # adding for sample merge
 
 
 @app.route("/attractions", methods=["POST"])
