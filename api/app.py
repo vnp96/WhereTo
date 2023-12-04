@@ -13,6 +13,7 @@ dbConnection = BorgDB()
 def index():
     # adding comments here for merge conflict
     return render_template("index.html")
+    # adding for sample merge
 
 
 @app.route("/attractions", methods=["POST"])
