@@ -1,8 +1,9 @@
 from flask import Flask, render_template, request
 import requests
-from helpers.BorgDB import BorgDB
-from sample_data.fakeData import fakedata
-from helpers import helpers
+from api.helpers.BorgDB import BorgDB
+from api.sample_data.fakeData import fakedata
+
+# from api.helpers import helpers
 
 # usage: flask --app=api/app.py run
 app = Flask(__name__)
@@ -29,23 +30,30 @@ def attractions_page():
         print(e)
         print("DB connection failed.")
     print("DB connected") if got_dbconnection else None
-    
+
     route_dictionary = fakedata
-    
-    return render_template("attractions.html", post_code=postcode, dictionary=route_dictionary)
+
+    return render_template(
+        "attractions.html", post_code=postcode, dictionary=route_dictionary
+    )
 
 
-def dictionary_routes(): #should take in the start postcode
+def dictionary_routes():  # should take in the start postcode
     route = {}
-    postcode_start = "ec4r9ha" ##fake value
+    postcode_start = "ec4r9ha"  ##fake value
     ##postcode_start = request.form.get("inputPostCode")
     ##for attraction in query:
-        ##postcode_end = attraction[0]
-    postcode_end = "sw72bx" #from database
-    response = requests.get("https://api.tfl.gov.uk/journey/journeyresults/"+postcode_start+"/to/"+ postcode_end).json()["journeys"][0]
+    ##postcode_end = attraction[0]
+    postcode_end = "sw72bx"  # from database
+    response = requests.get(
+        "https://api.tfl.gov.uk/journey/journeyresults/"
+        + postcode_start
+        + "/to/"
+        + postcode_end
+    ).json()["journeys"][0]
     if response.status_code == 200:
         route[attraction[1]] = {}
-        route[attraction[1]]['duration'] = response['duration']
-        route[attraction[1]]['legs'] = response['legs']
+        route[attraction[1]]["duration"] = response["duration"]
+        route[attraction[1]]["legs"] = response["legs"]
         print(route)
     return route

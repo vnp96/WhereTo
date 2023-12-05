@@ -14,25 +14,24 @@ class BorgDB:
         self._initialise_connection()
 
     def __del__(self):
-        if 'DBConnection' in self._shared_state:
-            self._shared_state['DBConnection'].close()
-            del self._shared_state['DBConnection']
+        if "DBConnection" in self._shared_state:
+            self._shared_state["DBConnection"].close()
+            del self._shared_state["DBConnection"]
 
     def _initialise_connection(self) -> bool:
-        if 'DBConnection' not in self._shared_state:
+        if "DBConnection" not in self._shared_state:
             try:
                 config = configparser.ConfigParser()
                 config.read("db_details.ini")
-                config['connection']['user'] = os.environ.get("WHERE2DB_USR")
-                config['connection']['password'] = os.environ.get(
-                    "WHERE2DB_PWD")
-                conn = db.connect(**config['connection'])
+                config["connection"]["user"] = os.environ.get("WHERE2DB_USR")
+                config["connection"]["password"] = os.environ.get("WHERE2DB_PWD")
+                conn = db.connect(**config["connection"])
                 curs = conn.cursor()
-                curs.execute(config['dbQueries']['validation'])
+                curs.execute(config["dbQueries"]["validation"])
                 rec = curs.fetchone()
-                if rec[0] != 'First trial':
+                if rec[0] != "First trial":
                     raise Exception("DB connection validation failed.")
-                self._shared_state['DBConnection'] = conn
+                self._shared_state["DBConnection"] = conn
                 return True
             except Exception as e:
                 print("DB connection failed. Will retry next time")
@@ -42,11 +41,11 @@ class BorgDB:
 
     # initializes new connection if previous tries had failed
     def get_connection(self):
-        if 'DBConnection' in self._shared_state:
-            return self._shared_state['DBConnection']
+        if "DBConnection" in self._shared_state:
+            return self._shared_state["DBConnection"]
         else:
             if self._initialise_connection():
-                return self._shared_state['DBConnection']
+                return self._shared_state["DBConnection"]
             else:
                 raise ConnectionAbortedError("DB connection failed.")
 
