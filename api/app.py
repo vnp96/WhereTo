@@ -2,7 +2,7 @@ from flask import Flask, render_template, request
 import requests
 from api.helpers.BorgDB import BorgDB
 from api.sample_data.fakeData import fakedata
-#import helpers.py
+from api.helpers import helpers
 
 # usage: flask --app=api/app.py run
 app = Flask(__name__)
