@@ -1,9 +1,9 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect
 import requests
 from api.helpers.BorgClass import BorgDB
 from sample_data.fakeData import fakedata
 
-# from api.helpers import helpers
+from api.helpers.helpers import parse_postcode
 
 # usage: flask --app=api/app.py run
 app = Flask(__name__)
@@ -18,10 +18,7 @@ def index():
     # adding for sample merge
 
 
-@app.route("/attractions", methods=["POST"])
-def attractions_page():
-    postcode = request.form.get("inputPostCode")
-    print("postcode received = " + str(postcode))
+def test_db_connection():
     got_dbconnection = False
     try:
         dbConnection.get_connection()
@@ -31,29 +28,82 @@ def attractions_page():
         print("DB connection failed.")
     print("DB connected") if got_dbconnection else None
 
-    route_dictionary = fakedata
+
+@app.route("/attractions", methods=["GET", "POST"])
+def attractions_page():
+    if request.method == 'GET':
+        return redirect("/", code=302)
+    postcode = request.form.get("inputPostCode")
+    test_db_connection()
+
+    attractions_list = get_attractions(postcode)
 
     return render_template(
-        "attractions.html", post_code=postcode, dictionary=route_dictionary
+        "attractions.html", post_code=postcode, attractions=attractions_list
     )
 
 
-def dictionary_routes():  # should take in the start postcode
-    route = {}
-    postcode_start = "ec4r9ha"  ##fake value
-    ##postcode_start = request.form.get("inputPostCode")
-    ##for attraction in query:
-    ##postcode_end = attraction[0]
-    postcode_end = "sw72bx"  # from database
+@app.route("/results", methods=["POST"])
+def show_res():
+    id_attr = request.form.get("id")
+    post_code = parse_postcode(request.form.get("post_code"))
+
+    attr_details = dbConnection.get_data_from_db('dbQueries',
+                                                 'get_attr_details',
+                                                 (id_attr,))[0]
+
+    info = {'name': attr_details[1],
+            'type': attr_details[2],
+            'subtype': attr_details[3],
+            'description': attr_details[4],
+            'post_code': attr_details[5],
+            'rating': attr_details[6]}
+
+    route_details = get_route_details(post_code, info['post_code'])
+    legs = route_details['legs']
+
+    return render_template("results.html", info=info, legs=legs)
+
+
+def get_attractions(postcode):  # should take in the start postcode
+    attraction_results = []
+
+    query_results = dbConnection.get_data_from_db('dbQueries',
+                                                  'get_attractions')
+
+    for attraction in query_results:
+        postcode_attraction = parse_postcode(attraction[1])
+        response = requests.get(
+            "https://api.tfl.gov.uk/journey/journeyresults/"
+            + postcode
+            + "/to/"
+            + postcode_attraction
+        )
+        if response.status_code == 200:
+            data = response.json()["journeys"][0]
+            cur_route = {"id": attraction[2],
+                         "name": attraction[0],
+                         "duration": data["duration"]}
+            attraction_results.append(cur_route)
+            # route[attraction[0]]["legs"] = response["legs"]
+            print(attraction_results)
+
+    attraction_results.sort(key=lambda x: x["duration"])
+    return attraction_results
+
+
+def get_route_details(postcode_source,
+                      postcode_dest):  # should take in the start postcode
+    postcode_source = parse_postcode(postcode_source)
+    postcode_dest = parse_postcode(postcode_dest)
     response = requests.get(
         "https://api.tfl.gov.uk/journey/journeyresults/"
-        + postcode_start
+        + postcode_source
         + "/to/"
-        + postcode_end
-    ).json()["journeys"][0]
+        + postcode_dest
+    )
+    data = {}
     if response.status_code == 200:
-        route[attraction[1]] = {}
-        route[attraction[1]]["duration"] = response["duration"]
-        route[attraction[1]]["legs"] = response["legs"]
-        print(route)
-    return route
+        data = response.json()["journeys"][0]
+        return data
+    return data

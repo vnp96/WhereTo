@@ -49,6 +49,18 @@ class BorgDB:
             else:
                 raise ConnectionAbortedError("DB connection failed.")
 
+    def get_data_from_db(self, query_type, query, params = None):
+        config = configparser.ConfigParser()
+        config.read("db_details.ini")
+        conn = self.get_connection()
+        curs = conn.cursor()
+        if not params:
+            curs.execute(config[query_type][query])
+        else:
+            curs.execute(config[query_type][query], params)
+
+        return curs.fetchall()
+
 
 if __name__ == "__main__":
     s1 = BorgDB()
@@ -56,6 +68,9 @@ if __name__ == "__main__":
 
     conn1 = s1.get_connection()
     conn2 = s2.get_connection()
+
+    a = s1.get_data_from_db('dbQueries', 'get_attractions')
+    print(a.fetchall())
 
     if id(conn1) == id(conn2):
         print("Singleton works, only one DB connection instantiated.")
