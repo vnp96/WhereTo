@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request
 import requests
-from api.helpers.BorgDB import BorgDB
-from api.sample_data.fakeData import fakedata
+from api.helpers.BorgClass import BorgDB
+from sample_data.fakeData import fakedata
 
 # from api.helpers import helpers
 

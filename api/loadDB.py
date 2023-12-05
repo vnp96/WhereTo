@@ -1,6 +1,6 @@
 import requests
 import os
-from api.helpers.BorgDB import BorgDB
+from api.helpers.BorgClass import BorgDB
 import configparser
 
 dbConnection = BorgDB()

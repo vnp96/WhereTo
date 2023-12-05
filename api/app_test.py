@@ -1,7 +1,8 @@
+from http import HTTPStatus
+from helpers.helpers import retrieve_tfl_journey, JourneyInfo
 import pytest
-import os
 import json
-from helpers import helpers
+
 
 # Will need to have downloaded pytest-mock
 
@@ -11,7 +12,7 @@ def fake_tfl_journey():
     """
     Fake TFL Journey from London Bridge (EC4R9HA) to Imperial College (SW72BX)
     """
-    with open("sample_data/mockTFLJourney.json") as f:
+    with open("../sample_data/mockTFLJourney.json") as f:
         return json.load(f)
 
 
