@@ -13,7 +13,10 @@ API = BASE_URL + "{postcode_start}/to/{postcode_end}?api_key={api_key}"
 def parse_postcode(postcode):
     assert isinstance(postcode, str)
     parsed_postcode = postcode.replace(" ", "")
-    return parsed_postcode
+    if parsed_postcode.isalnum():
+        return parsed_postcode
+    else:
+        return None
 
 
 def tfl_journey(start, end):
