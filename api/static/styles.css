@@ -1,39 +1,90 @@
 /* Reset some default styles */
-body {
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    margin: 0;
-    padding: 0;
+:root {
+  --bg-colour: #fffeec;
 }
 
-.route-res {
-    all: unset;
+body {
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  /* overflow: hidden; */
 }
+
+#hamburger {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  height: 5%;
+  cursor: pointer;
+}
+
+
 
 /* index page background image */
-.bg-img {
-  position: absolute;
+.img-container {
+  position: relative;
   height: 100vh;
-  z-index: -1;
-  align-self: center;
-}
-
-.image-container {
+  background-color: var(--bg-colour);
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: -3;
+}
+
+.bg-img {
+  position: absolute;
+  height: 80%;
+  z-index: -2;
+}
+
+.bg-bus {
+  position: absolute;
+  height: 45%;
+  bottom: 10%;
+  left: 10%;
+  z-index: -1;
+}
+
+.fade-in {
+  opacity: 0;
+  animation: fadeIn 1.5s ease-in-out forwards;
+  animation-delay: 1s;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.left-in {
+  left: -25%;
+  animation: leftIn 2s ease-in-out forwards;
+}
+
+@keyframes leftIn {
+  from {
+    left: -25%;
+  }
+  to {
+    left: 10%;
+  }
+}
+
+/* for results page */
+.route-res {
+  all: unset;
 }
 
 /* Center align the content in the body */
 .container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
 }
 
 /* .subcontainer{
@@ -44,59 +95,46 @@ body {
 
 /* Style the header */
 header {
-    position: relative;
-    top: 0;
-    background-color: #333;
-    display: flex;
-    color: #fff;
-    justify-content: space-between;
-    align-items: center;
-    text-align: center;
-    padding: 10px;
+  position: relative;
+  top: 0;
+  background-color: #333;
+  display: flex;
+  color: #fff;
+  justify-content: space-between;
+  align-items: center;
+  text-align: center;
+  padding: 10px;
 }
 
 /* Style the h1 and p elements */
 h1 {
-    color: #333;
-    font-size: 24px;
+  color: #333;
+  font-size: 24px;
 }
 
 p {
-    font-size: 18px;
-    color: #555;
+  font-size: 18px;
+  color: #555;
 }
 
 /* Style the list items */
 ul {
-    list-style: none;
+  list-style: none;
 }
 
-.fade-in {
-    opacity: 0;
-    animation: fadeIn 1.5s ease-in-out forwards;
-  }
-  
-  @keyframes fadeIn {
-    from {
-      opacity: 0;
-    }
-    to {
-      opacity: 1;
-    }
-  }
-  
-  h1, p {
-    margin: 0;
-  }
+h1,
+p {
+  margin: 0;
+}
 
 /* Style the footer */
 footer {
-    position: relative;
-    bottom: 0;
-    width: 100%; 
-    justify-content: center;
-    background-color: #333;
-    color: #fff;
-    text-align: center;
-    padding: 10px;
+  position: relative;
+  bottom: 0;
+  width: 100%;
+  justify-content: center;
+  background-color: #333;
+  color: #fff;
+  text-align: center;
+  padding: 10px;
 }
