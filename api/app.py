@@ -37,6 +37,7 @@ def attractions_page():
     test_db_connection()
 
     attractions_list = get_attractions(postcode)
+    print(attractions_list) #[] if invalid postcode
 
     return render_template(
         "attractions.html", post_code=postcode, attractions=attractions_list
@@ -47,7 +48,7 @@ def attractions_page():
 def show_res():
     id_attr = request.form.get("id")
     post_code = parse_postcode(request.form.get("post_code"))
-
+    print(id_attr, post_code)
     attr_details = dbConnection.get_data_from_db('dbQueries',
                                                  'get_attr_details',
                                                  (id_attr,))[0]
@@ -60,6 +61,7 @@ def show_res():
             'rating': attr_details[6]}
 
     route_details = get_route_details(post_code, info['post_code'])
+    #print(route_details)
     legs = route_details['legs']
 
     return render_template("results.html", info=info, legs=legs)
