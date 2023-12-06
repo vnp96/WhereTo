@@ -30,7 +30,7 @@ def tfl_journey(start, end):
 
 
 def postcode_to_coordinates(postcode):
-    geolocator = Nominatim(user_agent="your_app_name")
+    geolocator = Nominatim(user_agent="WhereTo")
     location = geolocator.geocode(postcode)
     
     if location:
