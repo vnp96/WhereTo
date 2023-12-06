@@ -5,6 +5,7 @@ import os
 import psycopg as db
 import requests
 from dataclasses import dataclass
+from geopy.geocoders import Nominatim
 
 BASE_URL = "https://api.tfl.gov.uk/Journey/JourneyResults/"
 API = BASE_URL + "{postcode_start}/to/{postcode_end}?api_key={api_key}"
@@ -26,6 +27,17 @@ def tfl_journey(start, end):
     url = API.format(postcode_start=parsed_start, postcode_end=parsed_end, api_key=key)
     resp = requests.get(url)
     return resp.json()
+
+
+def postcode_to_coordinates(postcode):
+    geolocator = Nominatim(user_agent="your_app_name")
+    location = geolocator.geocode(postcode)
+    
+    if location:
+        #latitude, longitude = location.latitude, location.longitude
+        return location.latitude, location.longitude
+    else:
+        return None
 
 
 @dataclass
@@ -58,8 +70,8 @@ def retrieve_tfl_journey(start: str, end: str) -> JourneyInfo:
     return JourneyInfo.from_dict(data)
 
 
-def querydb_postcodes():
-    return None
+if __name__=="__main__":
+    print(postcode_to_coordinates("SW81XR"))
 
 
 # print(retrieve_tfl_journey("EC4R9HA","SW72BX"))

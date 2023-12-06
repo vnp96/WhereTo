@@ -3,7 +3,7 @@ import requests
 from api.helpers.BorgClass import BorgDB
 from sample_data.fakeData import fakedata
 
-from api.helpers.helpers import parse_postcode
+from api.helpers.helpers import parse_postcode, postcode_to_coordinates
 
 # usage: flask --app=api/app.py run
 app = Flask(__name__)
@@ -67,9 +67,11 @@ def show_res():
 
 def get_attractions(postcode):  # should take in the start postcode
     attraction_results = []
-
+    latitude, longitude = postcode_to_coordinates(postcode)
     query_results = dbConnection.get_data_from_db('dbQueries',
-                                                  'get_attractions')
+                                                  'get_attractions', params=(longitude,
+                                                                             latitude,
+                                                                             latitude))
 
     for attraction in query_results:
         postcode_attraction = parse_postcode(attraction[1])
