@@ -66,7 +66,8 @@ class JourneyInfo:
 
 def retrieve_tfl_journey(start: str, end: str) -> JourneyInfo:
     """
-    Does the API call for the TFL Journey and returns a JourneyInfo Class Object
+    Does the API call for the TFL Journey and
+    returns a JourneyInfo Class Object
     """
     data = tfl_journey(start, end)
     return JourneyInfo.from_dict(data)

@@ -43,7 +43,7 @@ def attractions_page():
     test_db_connection()
 
     attractions_list = get_attractions(postcode)
-    if attractions_list == None:
+    if attractions_list is None:
         return render_template("index.html",
                                error="That's not a postcode! Please try "
                                      "another.")
@@ -86,7 +86,7 @@ def show_res():
 
 def get_attractions(postcode):  # should take in the start postcode
     latitude, longitude = postcode_to_coordinates(postcode)
-    if latitude == None or longitude == None:
+    if latitude is None or longitude is None:
         return None
     query_results = dbConnection.get_data_from_db('dbQueries',
                                                   'get_attractions',
