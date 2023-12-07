@@ -69,9 +69,6 @@ if __name__ == "__main__":
     conn1 = s1.get_connection()
     conn2 = s2.get_connection()
 
-    a = s1.get_data_from_db('dbQueries', 'get_attractions')
-    print(a.fetchall())
-
     if id(conn1) == id(conn2):
         print("Singleton works, only one DB connection instantiated.")
     else:
