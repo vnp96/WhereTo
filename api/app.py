@@ -1,9 +1,11 @@
-from flask import Flask, render_template, request, redirect, url_for
 import json
 
 import requests
+from flask import Flask, render_template, request, redirect
+
 from api.helpers.BorgClass import BorgDB
-from api.helpers.helpers import parse_postcode, postcode_to_coordinates
+from api.helpers.helpers import parse_postcode, postcode_to_coordinates, \
+    parallel_tfl_requests
 
 # usage: flask --app=api/app.py run
 app = Flask(__name__)
@@ -36,14 +38,15 @@ def test_db_connection():
 @app.route("/attractions", methods=["GET", "POST"])
 def attractions_page():
     if request.method == 'GET':
-        # return redirect("/", code=302)
-        return render_template("index.html", error="That's not a postcode! Please try another.")
+        return redirect("/", code=302)
     postcode = parse_postcode(request.form.get("inputPostCode"))
     test_db_connection()
 
     attractions_list = get_attractions(postcode)
     if attractions_list == None:
-        return render_template("index.html", error="That's not a postcode! Please try another.")
+        return render_template("index.html",
+                               error="That's not a postcode! Please try "
+                                     "another.")
 
     return render_template(
         "attractions.html", post_code=postcode, attractions=attractions_list
