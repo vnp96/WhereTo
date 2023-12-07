@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect
+from flask import Flask, render_template, request, redirect, url_for
 import requests
 from api.helpers.BorgClass import BorgDB
 from sample_data.fakeData import fakedata
@@ -13,10 +13,7 @@ dbConnection = BorgDB()
 
 @app.route("/")
 def index():
-    # adding comments here for merge conflict
     return render_template("index.html")
-    # adding for sample merge
-
 
 def test_db_connection():
     got_dbconnection = False
@@ -32,11 +29,14 @@ def test_db_connection():
 @app.route("/attractions", methods=["GET", "POST"])
 def attractions_page():
     if request.method == 'GET':
-        return redirect("/", code=302)
+        # return redirect("/", code=302)
+        return render_template("index.html", error="That's not a postcode! Please try another.")
     postcode = request.form.get("inputPostCode")
     test_db_connection()
 
     attractions_list = get_attractions(postcode)
+    if attractions_list == None:
+        return render_template("index.html", error="That's not a postcode! Please try another.")
 
     return render_template(
         "attractions.html", post_code=postcode, attractions=attractions_list
@@ -67,6 +67,8 @@ def show_res():
 
 def get_attractions(postcode):  # should take in the start postcode
     latitude, longitude = postcode_to_coordinates(postcode)
+    if latitude == None or longitude == None:
+        return None
     query_results = dbConnection.get_data_from_db('dbQueries',
                                                   'get_attractions', params=(longitude,
                                                                              latitude,
