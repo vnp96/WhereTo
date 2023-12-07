@@ -10,7 +10,19 @@ def parse_postcode(postcode):
         return None
 
 
+def is_london_postcode(postcode):
+    london_postcodes = [
+        "E", "EC", "N", "NW", "SE", "SW", "W",  # Inner London
+        "BR", "CR", "DA", "EN", "HA", "IG", "KT", "RM", "SM", "TN" # Outer London
+    ]
+
+    return any(postcode.upper().startswith(area) for area in london_postcodes)
+
+
 def postcode_to_coordinates(postcode):
+    if not is_london_postcode(postcode):
+        return None
+
     geolocator = Nominatim(user_agent="WhereTo")
     location = geolocator.geocode(postcode)
 
