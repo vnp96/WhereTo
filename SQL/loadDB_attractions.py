@@ -1,23 +1,18 @@
 import configparser
 import os
-
 import requests
-
-from api.helpers.BorgClass import BorgDB
+from helpers.DBClass import BorgDB
 
 dbConnection = BorgDB()
 
 
 def get_places_for_type(typ, subType=None):
     places_url = "https://api.geoapify.com/v2/places"
-    # typ = 'tourism'
-    # subtype = 'attraction'
     london_longitude1 = -0.5
     london_latitude1 = 50
     london_longitude2 = 0.5
     london_latitude2 = 52
     limit = 10
-    # apiKey = '98be8c3cba8441af89c89fb43c8b85d5'
     apiKey = os.environ.get("PLACES_API_KEY")
 
     apiCall = places_url + "?" + "categories=" + typ

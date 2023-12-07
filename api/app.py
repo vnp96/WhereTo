@@ -2,10 +2,9 @@ import json
 
 import requests
 from flask import Flask, render_template, request, redirect
-
-from api.helpers.BorgClass import BorgDB
-from api.helpers.helpers import parse_postcode, postcode_to_coordinates, \
-    parallel_tfl_requests
+from helpers.DBClass import BorgDB
+from helpers.ApiHelpers import parallel_tfl_requests
+from helpers.PostCodeHelpers import parse_postcode, postcode_to_coordinates
 
 # usage: flask --app=api/app.py run
 app = Flask(__name__)
@@ -18,9 +17,12 @@ def index():
     return render_template("index.html")
 
 
-@app.errorhandler(500)
 @app.errorhandler(404)
+@app.errorhandler(500)
+@app.errorhandler(504)
 def error_page(e=None):
+    if e:
+        print(e)
     return render_template("try_again.html")
 
 

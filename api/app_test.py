@@ -3,7 +3,7 @@ from http import HTTPStatus
 
 import pytest
 
-from helpers.helpers import retrieve_tfl_journey, JourneyInfo
+from helpers.ApiHelpers import retrieve_tfl_journey, JourneyInfo
 
 
 # Will need to have downloaded pytest-mock
