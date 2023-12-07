@@ -2,10 +2,9 @@ import json
 
 import requests
 from flask import Flask, render_template, request, redirect
-
-from api.helpers.BorgClass import BorgDB
-from api.helpers.helpers import parse_postcode, postcode_to_coordinates, \
-    parallel_tfl_requests
+from helpers.DBClass import BorgDB
+from helpers.ApiHelpers import parallel_tfl_requests
+from helpers.PostCodeHelpers import parse_postcode, postcode_to_coordinates
 
 # usage: flask --app=api/app.py run
 app = Flask(__name__)
@@ -18,9 +17,12 @@ def index():
     return render_template("index.html")
 
 
-@app.errorhandler(500)
 @app.errorhandler(404)
+@app.errorhandler(500)
+@app.errorhandler(504)
 def error_page(e=None):
+    if e:
+        print(e)
     return render_template("try_again.html")
 
 
@@ -43,7 +45,7 @@ def attractions_page():
     test_db_connection()
 
     attractions_list = get_attractions(postcode)
-    if attractions_list == None:
+    if attractions_list is None:
         return render_template("index.html",
                                error="That's not a postcode! Please try "
                                      "another.")
@@ -86,7 +88,7 @@ def show_res():
 
 def get_attractions(postcode):  # should take in the start postcode
     latitude, longitude = postcode_to_coordinates(postcode)
-    if latitude == None or longitude == None:
+    if latitude is None or longitude is None:
         return None
     query_results = dbConnection.get_data_from_db('dbQueries',
                                                   'get_attractions',
