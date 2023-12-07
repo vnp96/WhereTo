@@ -8,11 +8,11 @@
         <div class="subcontainer fade-in">
             <div class="list-group list-group-checkable d-grid gap-2 border-0">
                 {% for attraction in attractions  %}
-                    <form id="getDetails" action="/results" method="POST" >
+                    <form id="getDetails{{ attraction['id'] }}" action="/results" method="POST" >
                     <input type="hidden" name="id" value={{ attraction['id'] }} />
                     <input type="hidden" name="post_code" value= {{ post_code }} />
                     <label class="list-group-item rounded-3 py-3" for="listGroupCheckableRadios1">
-                        <button class="route-res" type="submit" form="getDetails" value="Submit">
+                        <button class="route-res" type="submit" form="getDetails{{ attraction['id'] }}" value="Submit">
                         <p style="color: royalblue;">{{ attraction['name'] }}</p>
                         <span class="d-block small opacity-50">{{ attraction['duration'] }} min to get there</span>
                     </button>
