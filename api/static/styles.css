@@ -5,9 +5,13 @@
 
 body {
   min-height: 100vh;
+  min-width: 1000px;
   margin: 0;
   padding: 0;
   /* overflow: hidden; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 #hamburger {
@@ -18,37 +22,68 @@ body {
   cursor: pointer;
 }
 
-
-
 /* index page background image */
-.img-container {
-  position: relative;
+.page-container {
+  background-color: var(--bg-colour);
   height: 100vh;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: -4;
+}
+
+.img-container {
   background-color: var(--bg-colour);
   display: flex;
   justify-content: center;
   align-items: center;
+  position: relative;
+  height: 650px;
+  width: 1000px;
   z-index: -3;
 }
 
 .bg-img {
   position: absolute;
-  height: 80%;
+  height: 100%;
   z-index: -2;
 }
 
 .bg-bus {
   position: absolute;
   height: 45%;
-  bottom: 10%;
+  bottom: 2%;
   left: 10%;
   z-index: -1;
+}
+
+#title {
+  position: absolute;
+  font-size: 60px;
+  top: 3%;
+  right: 15%;
+}
+
+/* main content*/
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  display: none;
 }
 
 .fade-in {
   opacity: 0;
   animation: fadeIn 1.5s ease-in-out forwards;
   animation-delay: 1s;
+}
+
+.fade-in-later {
+  opacity: 0;
+  animation: fadeIn 1.5s ease-in-out forwards;
+  animation-delay: 2s;
 }
 
 @keyframes fadeIn {
@@ -62,79 +97,22 @@ body {
 
 .left-in {
   left: -25%;
+  opacity: 0;
   animation: leftIn 2s ease-in-out forwards;
 }
 
 @keyframes leftIn {
   from {
-    left: -25%;
+    left: -30%;
+    opacity: 0;
   }
   to {
     left: 10%;
+    opacity: 100;
   }
 }
 
 /* for results page */
 .route-res {
   all: unset;
-}
-
-/* Center align the content in the body */
-.container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-}
-
-/* .subcontainer{
-    display: flex;
-    align-items: center;
-    text-align: center;
-} */
-
-/* Style the header */
-header {
-  position: relative;
-  top: 0;
-  background-color: #333;
-  display: flex;
-  color: #fff;
-  justify-content: space-between;
-  align-items: center;
-  text-align: center;
-  padding: 10px;
-}
-
-/* Style the h1 and p elements */
-h1 {
-  color: #333;
-  font-size: 24px;
-}
-
-p {
-  font-size: 18px;
-  color: #555;
-}
-
-/* Style the list items */
-ul {
-  list-style: none;
-}
-
-h1,
-p {
-  margin: 0;
-}
-
-/* Style the footer */
-footer {
-  position: relative;
-  bottom: 0;
-  width: 100%;
-  justify-content: center;
-  background-color: #333;
-  color: #fff;
-  text-align: center;
-  padding: 10px;
 }

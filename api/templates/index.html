@@ -1,10 +1,12 @@
 {% extends "layout.html" %}
 
 {% block body %}
+<div class="page-container">
     <div class="img-container">
         <img class="bg-img fade-in" src="/static/bg.jpg" alt="background art">
         <img class="bg-bus left-in" src="/static/bus.gif" alt="bus">
-    
+        <h1 id="title" class="fade-in-later">Where to?</h1>
+    </div>
     <div class="container">
         <div style="height: 30px;"></div>
         <small>Did you find yourself asking out loud</small>
@@ -24,5 +26,10 @@
         </div>
     </div>
 </div>
+
+<script>
+    var hamburger = document.getElementById('hamburger');
+    hamburger.classList.add('fade-in');
+</script>
 
 {% endblock %}
