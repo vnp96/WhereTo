@@ -1,8 +1,7 @@
+from flask import Flask, render_template, request, redirect, url_for
 import json
 
 import requests
-from flask import Flask, render_template, request, redirect
-
 from api.helpers.BorgClass import BorgDB
 from api.helpers.helpers import parse_postcode, postcode_to_coordinates
 
@@ -37,11 +36,14 @@ def test_db_connection():
 @app.route("/attractions", methods=["GET", "POST"])
 def attractions_page():
     if request.method == 'GET':
-        return redirect("/", code=302)
+        # return redirect("/", code=302)
+        return render_template("index.html", error="That's not a postcode! Please try another.")
     postcode = parse_postcode(request.form.get("inputPostCode"))
     test_db_connection()
 
     attractions_list = get_attractions(postcode)
+    if attractions_list == None:
+        return render_template("index.html", error="That's not a postcode! Please try another.")
 
     return render_template(
         "attractions.html", post_code=postcode, attractions=attractions_list
@@ -80,31 +82,16 @@ def show_res():
 
 
 def get_attractions(postcode):  # should take in the start postcode
-    attraction_results = []
     latitude, longitude = postcode_to_coordinates(postcode)
+    if latitude == None or longitude == None:
+        return None
     query_results = dbConnection.get_data_from_db('dbQueries',
                                                   'get_attractions',
                                                   params=(longitude,
                                                           latitude,
                                                           latitude))
 
-    for attraction in query_results:
-        postcode_attraction = parse_postcode(attraction[1])
-        response = requests.get(
-            "https://api.tfl.gov.uk/journey/journeyresults/"
-            + postcode
-            + "/to/"
-            + postcode_attraction
-        )
-        if response.status_code == 200:
-            data = response.json()["journeys"][0]
-            cur_route = {"id": attraction[2],
-                         "name": attraction[0],
-                         "duration": data["duration"]}
-            attraction_results.append(cur_route)
-            # route[attraction[0]]["legs"] = response["legs"]
-            print(attraction_results)
-
+    attraction_results = parallel_tfl_requests(postcode, query_results)
     attraction_results.sort(key=lambda x: x["duration"])
     return attraction_results
 
