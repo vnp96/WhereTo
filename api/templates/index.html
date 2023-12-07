@@ -1,30 +1,39 @@
-{% extends "layout.html" %} {% block body %}
-<div class="img-container">
-  <img class="bg-img fade-in" src="/static/bg.jpg" alt="background art" />
-  <img class="bg-bus left-in" src="/static/bus.gif" alt="bus" />
+{% extends "layout.html" %}
+
+{% block body %}
+<div class="page-container">
+    <div class="bg-container left-out">
+        <img class="bg-img fade-in" src="/static/bg.jpg" alt="background art">
+        <h1 id="title" class="fade-in-later">Where to?</h1>
+    </div>
+    <div class="bus-container">
+        <img class="bg-bus left-in" src="/static/bus.gif" alt="bus">
+    </div>
+</div>
+<div class="container right-in">
+    <small>Did you find yourself asking out loud</small>
+    <h1>What's happening in London today?</h1>
+    <h3>Enter your postcode to know!</h3>
+    <div style="height: 30px;"></div>
+    <div class="subcontainer fade-in">
+        <form class="form-inline" action="/attractions" method="post">
+            <div class="form-group mx-sm-3 mb-2">
+                <input type="text" class="form-control mx-sm-1" name="inputPostCode" id="inputPostCode"
+                    placeholder="SW1A 1AA" autocomplete="off">
+            </div>
+            <button type="submit" class="btn btn-primary mb-2">Find out
+            </button>
+        </form>
+
+            {% if error %}
+            <div>{{ error }}</div>
+            {% endif %}
+    </div>
 </div>
 
-<div class="container">
-  <div style="height: 30px"></div>
-  <small>Did you find yourself asking out loud</small>
-  <h1>What's happening in London today?</h1>
-  <h3>Enter your postcode to know!</h3>
-  <div style="height: 30px"></div>
-  <div class="subcontainer fade-in">
-    <form class="form-inline" action="/attractions" method="post">
-      <div class="form-group mx-sm-3 mb-2">
-        <input
-          type="text"
-          class="form-control mx-sm-1"
-          name="inputPostCode"
-          id="inputPostCode"
-          placeholder="SW1A 1AA"
-          required
-        />
-      </div>
-      <button type="submit" class="btn btn-primary mb-2">Find out</button>
-    </form>
-  </div>
-</div>
+<script>
+    var hamburger = document.getElementById('hamburger');
+    hamburger.classList.add('fade-in');
+</script>
 
 {% endblock %}

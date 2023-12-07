@@ -1,6 +1,7 @@
-import psycopg as db
-import os
 import configparser
+import os
+
+import psycopg as db
 
 
 class BorgDB:
@@ -24,7 +25,8 @@ class BorgDB:
                 config = configparser.ConfigParser()
                 config.read("db_details.ini")
                 config["connection"]["user"] = os.environ.get("WHERE2DB_USR")
-                config["connection"]["password"] = os.environ.get("WHERE2DB_PWD")
+                config["connection"]["password"] = os.environ.get(
+                    "WHERE2DB_PWD")
                 conn = db.connect(**config["connection"])
                 curs = conn.cursor()
                 curs.execute(config["dbQueries"]["validation"])
@@ -49,7 +51,7 @@ class BorgDB:
             else:
                 raise ConnectionAbortedError("DB connection failed.")
 
-    def get_data_from_db(self, query_type, query, params = None):
+    def get_data_from_db(self, query_type, query, params=None):
         config = configparser.ConfigParser()
         config.read("db_details.ini")
         conn = self.get_connection()
@@ -68,9 +70,6 @@ if __name__ == "__main__":
 
     conn1 = s1.get_connection()
     conn2 = s2.get_connection()
-
-    a = s1.get_data_from_db('dbQueries', 'get_attractions')
-    print(a.fetchall())
 
     if id(conn1) == id(conn2):
         print("Singleton works, only one DB connection instantiated.")
