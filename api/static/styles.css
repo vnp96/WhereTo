@@ -33,7 +33,7 @@ body {
   z-index: -4;
 }
 
-.img-container {
+.bg-container {
   background-color: var(--bg-colour);
   display: flex;
   justify-content: center;
@@ -50,6 +50,16 @@ body {
   z-index: -2;
 }
 
+.bus-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  height: 650px;
+  width: 1000px;
+  z-index: -3;
+}
+
 .bg-bus {
   position: absolute;
   height: 45%;
@@ -63,15 +73,6 @@ body {
   font-size: 60px;
   top: 3%;
   right: 15%;
-}
-
-/* main content*/
-.container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  display: none;
 }
 
 .fade-in {
@@ -95,6 +96,24 @@ body {
   }
 }
 
+.left-out {
+  right: 0;
+  animation: leftOut 1.5s ease-in-out forwards;
+  animation-delay: 3.5s;
+}
+
+@keyframes leftOut {
+  0% {
+    right: 0;
+    visibility: visible;
+  }
+  100% {
+    right: 100%;
+    visibility: hidden;
+  }
+
+}
+
 .left-in {
   left: -25%;
   opacity: 0;
@@ -109,6 +128,34 @@ body {
   to {
     left: 10%;
     opacity: 100;
+  }
+}
+
+/* main content*/
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  position: absolute;
+  z-index: 1;
+}
+
+.right-in {
+  transform: translateX(100%);
+  visibility: hidden;
+  animation: rightIn 1.5s ease-in-out forwards;
+  animation-delay: 3.5s;
+}
+
+@keyframes rightIn {
+  0% {
+    transform: translateX(100%);
+    visibility: hidden;
+  }
+  100% {
+    transform: translateX(0);
+    visibility: visible;
   }
 }
 
