@@ -1,7 +1,9 @@
-import requests
-import os
-from api.helpers.BorgClass import BorgDB
 import configparser
+import os
+
+import requests
+
+from api.helpers.BorgClass import BorgDB
 
 dbConnection = BorgDB()
 
@@ -22,14 +24,14 @@ def get_places_for_type(typ, subType=None):
     if subType:
         apiCall += "." + subType
     apiCall += (
-        "&filter=rect:"
-        + str(london_longitude1)
-        + ","
-        + str(london_latitude1)
-        + ","
-        + str(london_longitude2)
-        + ","
-        + str(london_latitude2)
+            "&filter=rect:"
+            + str(london_longitude1)
+            + ","
+            + str(london_latitude1)
+            + ","
+            + str(london_longitude2)
+            + ","
+            + str(london_latitude2)
     )
     apiCall += "&limit=" + str(limit)
     apiCall += "&apiKey=" + str(apiKey)

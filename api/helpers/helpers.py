@@ -2,9 +2,9 @@
 Helper functions for the website
 """
 import os
-import psycopg as db
-import requests
 from dataclasses import dataclass
+
+import requests
 from geopy.geocoders import Nominatim
 
 BASE_URL = "https://api.tfl.gov.uk/Journey/JourneyResults/"
@@ -24,7 +24,8 @@ def tfl_journey(start, end):
     key = os.environ.get("WHERE2TFL_KEY")
     parsed_start = parse_postcode(start)
     parsed_end = parse_postcode(end)
-    url = API.format(postcode_start=parsed_start, postcode_end=parsed_end, api_key=key)
+    url = API.format(postcode_start=parsed_start, postcode_end=parsed_end,
+                     api_key=key)
     resp = requests.get(url)
     return resp.json()
 
@@ -32,9 +33,9 @@ def tfl_journey(start, end):
 def postcode_to_coordinates(postcode):
     geolocator = Nominatim(user_agent="WhereTo")
     location = geolocator.geocode(postcode)
-    
+
     if location:
-        #latitude, longitude = location.latitude, location.longitude
+        # latitude, longitude = location.latitude, location.longitude
         return location.latitude, location.longitude
     else:
         return None
@@ -64,14 +65,14 @@ class JourneyInfo:
 
 def retrieve_tfl_journey(start: str, end: str) -> JourneyInfo:
     """
-    Does the API call for the TFL Journey and returns a JourneyInfo Class Object
+    Does the API call for the TFL Journey and
+    returns a JourneyInfo Class Object
     """
     data = tfl_journey(start, end)
     return JourneyInfo.from_dict(data)
 
 
-if __name__=="__main__":
+if __name__ == "__main__":
     print(postcode_to_coordinates("SW81XR"))
-
 
 # print(retrieve_tfl_journey("EC4R9HA","SW72BX"))

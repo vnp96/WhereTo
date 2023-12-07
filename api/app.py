@@ -1,9 +1,9 @@
-from flask import Flask, render_template, request, redirect
-import requests
-from api.helpers.BorgClass import BorgDB
 import json
-from sample_data.fakeData import fakedata
 
+import requests
+from flask import Flask, render_template, request, redirect
+
+from api.helpers.BorgClass import BorgDB
 from api.helpers.helpers import parse_postcode, postcode_to_coordinates
 
 # usage: flask --app=api/app.py run
@@ -66,7 +66,7 @@ def show_res():
             'rating': attr_details[6]}
 
     route_details = get_route_details(post_code, info['post_code'])
-    if route_details['response_code'] is not 200:
+    if route_details['response_code'] != 200:
         return error_page()
 
     legs = {}

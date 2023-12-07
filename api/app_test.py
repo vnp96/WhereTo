@@ -1,7 +1,9 @@
-from http import HTTPStatus
-from helpers.helpers import retrieve_tfl_journey, JourneyInfo
-import pytest
 import json
+from http import HTTPStatus
+
+import pytest
+
+from helpers.helpers import retrieve_tfl_journey, JourneyInfo
 
 
 # Will need to have downloaded pytest-mock
