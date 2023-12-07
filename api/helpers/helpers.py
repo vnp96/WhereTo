@@ -6,6 +6,7 @@ import psycopg as db
 import requests
 from dataclasses import dataclass
 from geopy.geocoders import Nominatim
+from concurrent.futures import ThreadPoolExecutor
 
 BASE_URL = "https://api.tfl.gov.uk/Journey/JourneyResults/"
 API = BASE_URL + "{postcode_start}/to/{postcode_end}?api_key={api_key}"
@@ -68,6 +69,29 @@ def retrieve_tfl_journey(start: str, end: str) -> JourneyInfo:
     """
     data = tfl_journey(start, end)
     return JourneyInfo.from_dict(data)
+
+
+def get_tfl_journey(start, attraction):
+    response = requests.get(
+            "https://api.tfl.gov.uk/journey/journeyresults/"
+            + start
+            + "/to/"
+            + parse_postcode(attraction[1])
+        )
+    if response.status_code == 200:
+        data = response.json()["journeys"][0]
+        cur_route = {"id": attraction[2],
+                        "name": attraction[0],
+                        "duration": data["duration"]}
+    return cur_route
+
+
+def parallel_tfl_requests(start, attractions):
+    with ThreadPoolExecutor() as executor:
+        # Parallelize the API requests
+        attraction_results = list(executor.map(lambda x: get_tfl_journey(start, x), attractions))
+
+    return attraction_results
 
 
 if __name__=="__main__":

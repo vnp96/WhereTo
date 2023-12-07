@@ -3,7 +3,7 @@ import requests
 from api.helpers.BorgClass import BorgDB
 from sample_data.fakeData import fakedata
 
-from api.helpers.helpers import parse_postcode, postcode_to_coordinates
+from api.helpers.helpers import parse_postcode, postcode_to_coordinates, parallel_tfl_requests
 
 # usage: flask --app=api/app.py run
 app = Flask(__name__)
@@ -66,30 +66,13 @@ def show_res():
 
 
 def get_attractions(postcode):  # should take in the start postcode
-    attraction_results = []
     latitude, longitude = postcode_to_coordinates(postcode)
     query_results = dbConnection.get_data_from_db('dbQueries',
                                                   'get_attractions', params=(longitude,
                                                                              latitude,
                                                                              latitude))
 
-    for attraction in query_results:
-        postcode_attraction = parse_postcode(attraction[1])
-        response = requests.get(
-            "https://api.tfl.gov.uk/journey/journeyresults/"
-            + postcode
-            + "/to/"
-            + postcode_attraction
-        )
-        if response.status_code == 200:
-            data = response.json()["journeys"][0]
-            cur_route = {"id": attraction[2],
-                         "name": attraction[0],
-                         "duration": data["duration"]}
-            attraction_results.append(cur_route)
-            # route[attraction[0]]["legs"] = response["legs"]
-            print(attraction_results)
-
+    attraction_results = parallel_tfl_requests(postcode, query_results)
     attraction_results.sort(key=lambda x: x["duration"])
     return attraction_results
 
