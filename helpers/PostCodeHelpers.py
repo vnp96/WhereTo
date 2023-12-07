@@ -22,6 +22,9 @@ def is_london_postcode(postcode):
 def postcode_to_coordinates(postcode):
     if not is_london_postcode(postcode):
         return None
+    
+    if len(postcode) < 6 or len(postcode) > 8:
+        return None
 
     geolocator = Nominatim(user_agent="WhereTo")
     location = geolocator.geocode(postcode)
