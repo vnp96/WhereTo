@@ -3,22 +3,12 @@ Helper functions for the website
 """
 import os
 from concurrent.futures import ThreadPoolExecutor
-from dataclasses import dataclass
-
 import requests
-from geopy.geocoders import Nominatim
+from dto.Journeys import *
+from helpers.PostCodeHelpers import parse_postcode
 
 BASE_URL = "https://api.tfl.gov.uk/Journey/JourneyResults/"
 API = BASE_URL + "{postcode_start}/to/{postcode_end}?api_key={api_key}"
-
-
-def parse_postcode(postcode):
-    assert isinstance(postcode, str)
-    parsed_postcode = postcode.replace(" ", "")
-    if parsed_postcode.isalnum():
-        return parsed_postcode
-    else:
-        return None
 
 
 def tfl_journey(start, end):
@@ -29,39 +19,6 @@ def tfl_journey(start, end):
                      api_key=key)
     resp = requests.get(url)
     return resp.json()
-
-
-def postcode_to_coordinates(postcode):
-    geolocator = Nominatim(user_agent="WhereTo")
-    location = geolocator.geocode(postcode)
-
-    if location:
-        # latitude, longitude = location.latitude, location.longitude
-        return location.latitude, location.longitude
-    else:
-        return None
-
-
-@dataclass
-class JourneyLegInfo:
-    duration: float
-    instruction: str
-
-
-@dataclass
-class JourneyInfo:
-    duration: float
-    legs: list
-
-    @classmethod
-    def from_dict(cls, data: dict) -> "JourneyInfo":
-        return cls(
-            duration=data["journeys"][0]["duration"],
-            legs=[
-                JourneyLegInfo(leg["duration"], leg["instruction"]["summary"])
-                for leg in data["journeys"][0]["legs"]
-            ],
-        )
 
 
 def retrieve_tfl_journey(start: str, end: str) -> JourneyInfo:
@@ -102,7 +59,5 @@ def parallel_tfl_requests(start, attractions):
     return attraction_results
 
 
-if __name__ == "__main__":
-    print(postcode_to_coordinates("SW81XR"))
 
 # print(retrieve_tfl_journey("EC4R9HA","SW72BX"))
