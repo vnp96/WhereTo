@@ -13,7 +13,15 @@
         <input type="hidden" name="id" value={{ attraction['id'] }} />
         <input type="hidden" name="post_code" value= {{ post_code }} />
         <button class="route-res" type="submit" form="getDetails{{ attraction['id'] }}" value="Submit">
-            <div class="card__background" style="background-image: url(https://images.unsplash.com/photo-1557177324-56c542165309?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80)"></div>
+            <div class="card__background">
+              {% if attraction['subtype'] == 'restaurant' %}
+                <img src="/static/restaurant.jpg" alt="restaurant image">
+              {% elif attraction['subtype'] == 'attraction' %}
+                <img src="/static/attractions.jpg" alt="tourist attraction image">
+              {% else %}
+                <img src="/static/sights.jpg" alt="sightseeing image">
+              {% endif %}
+            </div>
             <div class="card__content">
                 <div>
                     <p class="card__category">{{ attraction['subtype'] }}</p>

@@ -93,10 +93,6 @@ body {
 }
 
 .card__background{
-  background-size: cover;
-  background-position: center;
-  border-radius: 20px;
-  /* filter: brightness(0.75) saturate(1.2) contrast(0.85); */
   position: absolute;
   top: 0;
   bottom: 0;
@@ -105,8 +101,16 @@ body {
   transform-origin: center;
   transform: scale(1) translateZ(0);
   transition: 
-    filter 200ms linear,
-    transform 200ms linear;
+  filter 200ms linear,
+  transform 200ms linear;
+}
+
+.card__background img {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  border-radius: 20px;
+  filter: brightness(0.75) saturate(1.2) contrast(0.85);
 }
 
 .card:hover .card__background{

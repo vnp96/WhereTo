@@ -21,7 +21,7 @@ def index():
 @app.errorhandler(500)
 @app.errorhandler(404)
 def error_page(e=None):
-    return render_template("try_again.html")
+    return render_template("error.html", error=e)
 
 
 def test_db_connection():
@@ -47,9 +47,7 @@ def attractions_page():
         return render_template("index.html",
                                error="That's not a postcode! Please try "
                                      "another.")
-
-    print(attractions_list)
-
+    
     return render_template(
         "attractions.html", post_code=postcode, attractions=attractions_list
     )
@@ -77,11 +75,12 @@ def show_res():
     legs = {}
     try:
         legs = route_details['legs']
+        duration = route_details['duration']
     except KeyError:
         print("WARNING: Legs were not returned as part of request.")
         print(json.dumps(route_details, indent=4))
 
-    return render_template("results.html", info=info, legs=legs)
+    return render_template("results.html", info=info, duration=duration, legs=legs)
 
 
 def get_attractions(postcode):
@@ -112,7 +111,7 @@ def get_route_details(postcode_source,
     print("Route details request from " + postcode_source +
           " to " + postcode_dest + " has returned: HTTP " +
           str(response.status_code))
-
+  
     data = {}
     if response.status_code == 200:
         data = response.json()["journeys"][0]

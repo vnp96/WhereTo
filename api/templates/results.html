@@ -19,9 +19,87 @@
 {#            <img style="height: 210px" src="https://all.accor.com/magazine/imagerie/bloc-1-4fc1.jpg"#}
 {#                alt="gif">#}
 {#        </div>#}
-        <br><br>
-        
-
     </div>
+
+    <div class="wrapper">
+        <div>
+            <div class="title">
+                {{ info['name'] }} <br />
+                <p>{{ duration }} min to get there</p>
+            </div>
+            <table class="details">
+                {% for key, value in info.items() %}
+                    {% if key != 'name' and key != 'subtype'%}
+                        <tr>
+                            <td style="text-transform: capitalize;">{{ key }}</td>
+                            <td class="one">:</td>
+                            <td style="text-transform: capitalize;">
+                                {% if value %}
+                                    {{ value }}
+                                {% else %}
+                                    N/A
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endif %}
+                {% endfor %}
+            </table>
+        </div>
+        <img class="round-image" src="https://yt3.ggpht.com/-GhFCaSPC3Ns/AAAAAAAAAAI/AAAAAAAAAAA/lyBDET_Q8lo/s900-c-k-no-mo-rj-c0xffffff/photo.jpg">
+    </div>
+
+    <div id="LineTime">
+        <div class="container-fluid">
+            <div class="row timeline-centered">
+                <div class="col-md-12 timelineMAIN-title">
+                    <ul class="timeline timeline-centered">
+                        <li class="timeline-item">
+                            <div class="timeline-info">
+                                <span>2017</span>
+                            </div>
+                            <div class="timeline-marker"></div>
+                            <div class="timeline-content">
+                                <h3 class="timeline-title">MusterFirma</h3>
+                                <p>"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco..."</p>
+                            </div>
+                        </li>
+                        <li class="timeline-item">
+                            <div class="timeline-info">
+                                <span>2015</span>
+                            </div>
+                            <div class="timeline-marker"></div>
+                            <div class="timeline-content">
+                                <h3 class="timeline-title">MusterFirma</h3>
+                                <p>"Nullam vel sem. Nullam vel sem. Integer ante arcu, accumsan a, consectetuer eget, posuere ut, mauris. Donec orci lectus, aliquam ut, faucibus non, euismod id, nulla. Donec vitae sapien ut libero venenatis faucibus. ullam dictum felis
+                                    eu pede mollis pretium. Pellentesque ut neque."</p>
+                            </div>
+                        </li>
+                        <li class="timeline-item">
+                            <div class="timeline-info">
+                                <span>2009</span>
+                            </div>
+                            <div class="timeline-marker"></div>
+                            <div class="timeline-content">
+                                <h3 class="timeline-title">MusterFirma</h3>
+                                <p>"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco..."</p>
+                            </div>
+                        </li>
+                        <li class="timeline-item">
+                            <div class="timeline-info">
+                                <span>2001</span>
+                            </div>
+                            <div class="timeline-marker"></div>
+                            <div class="timeline-content">
+                                <h3 class="timeline-title">MusterFirma</h3>
+                                <p>"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco..."</p>
+                            </div>
+                        </li>
+                        <li class="timeline-item period">
+                            <div class="timeline-marker"></div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
 
 {% endblock %}
