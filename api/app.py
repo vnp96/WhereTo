@@ -94,8 +94,6 @@ def show_res():
         print("WARNING: Legs were not returned as part of request.")
         print(json.dumps(route_details, indent=4))
 
-    print(legs)
-
     return render_template("results.html", info=info, duration=duration, legs=legs)
 
 

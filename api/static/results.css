@@ -50,6 +50,7 @@ body {
 .one {
   text-align: center;
   padding: 0px 10px;
+  vertical-align: text-top;
 }
 .title {
   font-size: 60px;
@@ -64,7 +65,7 @@ body {
 }
 .details {
   padding: 15px 10px;
-  width: 300px;
+  width: 650px;
 }
 
 h1,

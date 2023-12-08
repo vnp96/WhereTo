@@ -15,9 +15,9 @@
                 {% for key, value in info.items() %}
                     {% if key != 'name' and key != 'subtype'%}
                         <tr>
-                            <td style="text-transform: capitalize;">{{ key }}</td>
+                            <td style="text-transform: capitalize; vertical-align: text-top;">{{ key }}</td>
                             <td class="one">:</td>
-                            <td style="text-transform: capitalize;">
+                            <td style="text-transform: capitalize; vertical-align: text-top;">
                                 {% if value %}
                                     {{ value }}
                                 {% else %}
