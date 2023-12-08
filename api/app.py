@@ -55,6 +55,8 @@ def attractions_page():
 
 @app.route("/results", methods=["POST"])
 def show_res():
+    if request.method == 'GET':
+        return redirect("/", code=302)
     id_attr = request.form.get("id")
     post_code = parse_postcode(request.form.get("post_code"))
     attr_details = dbConnection.get_data_from_db('dbQueries',
@@ -72,13 +74,22 @@ def show_res():
     if route_details['response_code'] != 200:
         return error_page()
 
-    legs = {}
+    legs = []
     try:
-        legs = route_details['legs']
         duration = route_details['duration']
+        all_data = route_details['legs']
+        for data in all_data:
+            leg = {'duration': data['duration'],
+                   'summary': data['instruction']['summary'],
+                   'steps': [step['descriptionHeading'] + step['description'] for step in data['instruction']['steps']],
+                   'arrivalPoint': data['arrivalPoint']['commonName'],
+                   'path': [stop['name'] for stop in data['path']['stopPoints']]}
+            legs.append(leg)
     except KeyError:
         print("WARNING: Legs were not returned as part of request.")
         print(json.dumps(route_details, indent=4))
+
+    print(legs)
 
     return render_template("results.html", info=info, duration=duration, legs=legs)
 
@@ -94,7 +105,11 @@ def get_attractions(postcode):
                                                           latitude))
 
     attraction_results = parallel_tfl_requests(postcode, query_results)
-    attraction_results.sort(key=lambda x: x["duration"])
+    try:
+        attraction_results.sort(key=lambda x: x["duration"])
+    except KeyError:
+        print("WARNING: Duration were not returned as part of request.")
+        print(json.dumps(attraction_results, indent=4))
     return attraction_results
 
 

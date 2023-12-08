@@ -24,31 +24,27 @@ body {
   cursor: pointer;
 }
 
-.container {
-  display: none;
-}
-
 .wrapper {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 60%;
+  width: 70%;
   margin-top: 150px;
   margin-bottom: 75px;
 }
 
 .round-image {
-  border-radius: 100%;
-  height: 200px;
+  border-radius: 20%;
+  height: 275px;
+  width: 300px;
   margin: 0 auto;
-  top: 150px;
-  left: 200px;
-  width: 200px;
   border: 2px solid #ccd5db;
+  object-fit: cover;
 }
 
 #LineTime {
   width: 80%;
+  max-width: 900px;
 }
 
 .one {
@@ -81,18 +77,10 @@ h6 {
   margin-top: 0;
 }
 
-.container-fluid .row {
-  padding: 0 0 4em 0;
-}
-.container-fluid .row:nth-child(even) {
-  background: #f1f4f5;
-}
-
 .timelineMAIN-title {
   text-align: center;
   margin-bottom: 60px;
   padding: 3em 0;
-  /*border-bottom: 1px solid #E4EAEC;*/
 }
 .timelineMAIN-title p {
   margin: 0 auto;
@@ -112,17 +100,6 @@ h6 {
   padding: 0;
   width: 100%;
 }
-.timeline h1,
-.timeline h2,
-.timeline h3,
-.timeline h4,
-.timeline h5,
-.timeline h6 {
-  line-height: inherit;
-}
-.timeline h3 {
-  margin-top: 0px;
-}
 
 /*----- TIMELINE ITEM -----*/
 .timeline-item {
@@ -139,7 +116,7 @@ h6 {
   font-weight: 350;
   letter-spacing: 3px;
   margin: 0 0 0.5em 0;
-  text-transform: uppercase;
+  /* text-transform: uppercase; */
   white-space: nowrap;
   color: #768390;
   position: absolute;
@@ -164,7 +141,6 @@ h6 {
   top: 4px;
   left: 0;
   width: 15px;
-  transition: background 0.3s ease-in-out, border 0.3s ease-in-out;
 }
 .timeline-marker:after {
   content: "";
@@ -299,4 +275,36 @@ h6 {
 }
 .marker-outline .timeline-item:hover .timeline-marker:before {
   background: #ff6b6b;
+}
+
+/*==================================
+  TUBE MAP
+==================================*/
+
+.mag {
+  background: url("https://www.bbc.co.uk/london/travel/downloads/tube_map.gif") no-repeat;
+  background-attachment: fixed;
+  background-size: 100%;
+  border-radius: 50%;
+  border: 0.5em solid white;
+  box-shadow: 0 0 50px rgba(17, 17, 17, 0.8), inset 0 0 4px rgba(17, 17, 17, 0.4);
+  cursor: all-scroll;
+  top: 80%;
+  left: 2%;
+  height: 15em;
+  margin: -7.5em 0 0 -7.5em;
+  overflow: hidden;
+  position: absolute;
+  width: 15em;
+  object-position: bottom;
+}
+.mag:after {
+  background: linear-gradient(#ffffff, rgba(0, 0, 0, 0));
+  border-radius: 50%;
+  content: '';
+  height: 50%;
+  left: 10%;
+  position: absolute;
+  top: 5%;
+  width: 80%;
 }
