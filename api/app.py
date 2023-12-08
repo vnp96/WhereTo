@@ -47,6 +47,9 @@ def attractions_page():
     test_db_connection()
 
     attractions_list = get_attractions(postcode)
+    if attractions_list[0]['response_code'] != 200:
+        print(attractions_list[0]['response_code'])
+        return error_page()
     if attractions_list is None:
         return render_template("index.html",
                                error="That's not a postcode! Please try "
@@ -100,6 +103,9 @@ def get_attractions(postcode):  # should take in the start postcode
                                                           latitude))
 
     attraction_results = parallel_tfl_requests(postcode, query_results)
+    for attraction in attraction_results:
+        if attraction["response_code"]!=200:
+            return [{"response_code":attraction["response_code"]}]     
     attraction_results.sort(key=lambda x: x["duration"])
     return attraction_results
 
