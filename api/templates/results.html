@@ -41,7 +41,7 @@
                         {% for leg in legs %}
                         <li class="timeline-item">
                             <div class="timeline-info">
-                                <span>{{ leg['duration'] }} 
+                                <span>{{ leg['duration'] }}
                                     {% if leg['duration'] == 1 %}
                                     minute
                                     {% else %}
@@ -94,20 +94,20 @@
           }
         }
       </script>
-    
+
     <div id="mag" class="mag"></div>
     <script>
         var draggableElement = document.getElementById('mag');
         var offsetX, offsetY;
         var isDragging = false;
-      
+
         draggableElement.addEventListener('mousedown', function (e) {
           isDragging = true;
           offsetX = e.clientX - draggableElement.getBoundingClientRect().left;
           offsetY = e.clientY - draggableElement.getBoundingClientRect().top;
           draggableElement.style.cursor = 'grabbing';
         });
-      
+
         document.addEventListener('mousemove', function (e) {
           if (isDragging) {
             var x = e.pageX - offsetX + draggableElement.offsetWidth / 2;
@@ -117,7 +117,7 @@
             draggableElement.style.top = y + 'px';
           }
         });
-      
+
         document.addEventListener('mouseup', function () {
           isDragging = false;
           draggableElement.style.cursor = 'grab';
