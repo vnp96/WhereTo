@@ -4,7 +4,7 @@ Helper functions for the website
 import os
 from concurrent.futures import ThreadPoolExecutor
 import requests
-from dto.Journeys import *
+from dto.Attractions import *
 from helpers.PostCodeHelpers import parse_postcode
 
 BASE_URL = "https://api.tfl.gov.uk/Journey/JourneyResults/"

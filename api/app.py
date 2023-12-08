@@ -5,6 +5,7 @@ from flask import Flask, render_template, request, redirect
 from helpers.DBClass import BorgDB
 from helpers.ApiHelpers import parallel_tfl_requests
 from helpers.PostCodeHelpers import parse_postcode, postcode_to_coordinates
+from dto.Attractions import AttractionDetails
 
 # usage: flask --app=api/app.py run
 app = Flask(__name__)
@@ -64,20 +65,12 @@ def show_res():
     print("Postcode passed along is " + request.form.get("post_code"))
     post_code = parse_postcode(request.form.get("post_code"))
 
-    attr_details = dbConnection.get_data_from_db('dbQueries',
-                                                 'get_attr_details',
-                                                 (id_attr,))[0]
+    info = AttractionDetails.from_details_query(
+        dbConnection.get_data_from_db('dbQueries',
+                                      'get_attr_details',
+                                      (id_attr,))[0])
 
-    info = {'name': attr_details[1],
-            'type': attr_details[2],
-            'subtype': attr_details[3],
-            'description': attr_details[4],
-            'post_code': attr_details[5],
-            'rating': attr_details[6],
-            'image_link_1': attr_details[7],
-            'image_link_2': attr_details[8]}
-
-    route_details = get_route_details(post_code, info['post_code'])
+    route_details = get_route_details(post_code, info.post_code)
     if route_details['response_code'] != 200:
         return error_page()
 
