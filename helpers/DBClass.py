@@ -25,8 +25,7 @@ class BorgDB:
                 config = configparser.ConfigParser()
                 config.read("db_details.ini")
                 config["connection"]["user"] = os.environ.get("WHERE2DB_USR")
-                config["connection"]["password"] = os.environ.get(
-                    "WHERE2DB_PWD")
+                config["connection"]["password"] = os.environ.get("WHERE2DB_PWD")
                 conn = db.connect(**config["connection"])
                 curs = conn.cursor()
                 curs.execute(config["dbQueries"]["validation"])

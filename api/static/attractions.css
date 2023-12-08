@@ -1,0 +1,181 @@
+/* Reset some default styles */
+:root {
+  --bg-colour: #fffeec;
+}
+
+body {
+  background-color: var(--bg-colour);
+  min-height: 100vh;
+  min-width: 1000px;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+#hamburger {
+  position: absolute;
+  top: 30px;
+  right: 30px;
+  height: 5%;
+  cursor: pointer;
+}
+
+/* for results button */
+.route-res {
+  all: unset;
+}
+
+.title {
+  margin-bottom: 25px;
+}
+
+.bus-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  height: 650px;
+  width: 1000px;
+  z-index: -3;
+}
+
+.bg-bus {
+  position: absolute;
+  height: 45%;
+  bottom: -30px;
+  left: 10%;
+  z-index: -1;
+}
+
+.left-in {
+  left: -25%;
+  opacity: 0;
+  animation: leftIn 2s ease-in-out forwards;
+}
+
+@keyframes leftIn {
+  from {
+    left: -30%;
+    opacity: 0;
+  }
+  to {
+    left: 10%;
+    opacity: 100;
+  }
+}
+
+.hero-section{
+  display: flex;
+  justify-content: center;
+  height: 80%;
+  width: 100%;
+  min-width: 1000px;
+  max-width: 1200px;
+  margin-bottom: 50px;
+  padding: 64px 24px;
+}
+
+.card-grid{
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-column-gap: 40px;
+  grid-row-gap: 40px;
+  width: 100%;
+}
+
+.card{
+  position: relative;
+  border: none;
+}
+
+.card:before{
+  content: '';
+  padding-bottom: 150%;
+}
+
+.card__background{
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  transform-origin: center;
+  transform: scale(1) translateZ(0);
+  transition: 
+  filter 200ms linear,
+  transform 200ms linear;
+}
+
+.card__background img {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  border-radius: 20px;
+  filter: brightness(0.75) saturate(1.2) contrast(0.85);
+}
+
+.card:hover .card__background{
+  transform: scale(1.05) translateZ(0);
+}
+
+.card-grid:hover > .card:not(:hover) .card__background{
+  filter: brightness(0.8) contrast(1.2) blur(10px);
+}
+
+.card__content{
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 24px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.card__category{
+  color: lightgrey;
+  font-size: 0.9rem;
+  margin-bottom: 8px;
+  text-transform: capitalize;
+}
+
+.card__heading{
+  color: white;
+  font-size: 1.9rem;
+  text-shadow: 2px 2px 20px rgba(0,0,0,0.2);
+  line-height: 1.4;
+  margin-bottom: 8px;
+}
+
+.card__eta{
+  position: relative;
+  color: lightgrey;
+  bottom: 0;
+  margin: 0;
+}
+
+.fade-in {
+  opacity: 0;
+  animation: fadeIn 1.5s ease-in-out forwards;
+  animation-delay: 0.2s;
+}
+
+.fade-in-later {
+  opacity: 0;
+  animation: fadeIn 1.5s ease-in-out forwards;
+  animation-delay: 1s;
+}
+
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}

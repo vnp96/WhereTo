@@ -1,0 +1,26 @@
+{% extends "layout.html" %}
+
+{% block css %}
+<link rel="stylesheet" href="{{ url_for('static', filename = 'error.css')}}" />
+{% endblock %}
+
+{% block body %}
+    <!-- <div class="bg-img"><img src="/static/bg.jpg" alt="background image"></div> -->
+    <div class="container">
+        <div>
+            {% if error %}
+                <h4>Uh oh!</h4>
+                <h1>{{ error.code }} Error!</h1>
+                <h3>{{ error.description }}</h3>
+            {% else %}
+                <h4>Uh oh!</h4>
+                <h1>Requests have been timing out!</h1>
+                <h3>We are broke students using free apis so please try again a bit
+                    later when the apis get unblocked..</h3>
+            {% endif %}
+        </div>
+    
+        <a href="/" class="btn btn-primary mb-2 fade-in" >Take me home!</a>
+    </div>
+
+{% endblock %}

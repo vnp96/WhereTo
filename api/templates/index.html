@@ -1,32 +1,54 @@
 {% extends "layout.html" %}
 
+{% block css %}
+<link rel="stylesheet" href="{{ url_for('static', filename = 'index.css')}}" />
+{% endblock %}
+
 {% block body %}
-    <!-- <div class="bg-img"><img src="/static/bg.jpg" alt="background image"></div> -->
-    <div class="container">
-        <div style="height: 30px;"></div>
-        <small>Did you find yourself asking out loud</small>
-        <h1>What's happening in London today?</h1>
-        <h3>Enter your postcode to know!</h3>
-        <div style="height: 30px;"></div>
-        <div class="subcontainer fade-in">
-
-            <form class="form-inline" action = "/attractions" method = "post">
-                <div class="form-group mx-sm-3 mb-2">
-                    <input type="text" class="form-control mx-sm-1"
-                           name="inputPostCode" id="inputPostCode" placeholder="SW1A 1AA" required>
-                </div>
-                <button type="submit" class="btn btn-primary mb-2">Find out
-                </button>
-            </form>
-
-            {% if error %}
-            <div>{{ error }}</div>
-            {% endif %}
-
-        </div>
-        <br><br>
-
-
+<div class="page-container">
+    <div class="bg-container left-out">
+        <img id="bg" class="bg-img fade-in" src="/static/bg.jpg" alt="background art">
+        <h1 id="title" class="fade-in-later">Where to?</h1>
     </div>
+    <div class="bus-container">
+        <img id="bus" class="bg-bus left-in" src="/static/bus.gif" alt="bus">
+    </div>
+</div>
+<div id="main" class="container right-in">
+    <small style="margin-bottom: 10px;">Do you find yourself asking...</small>
+    <h1 style="margin-bottom: 20px;">What's happening in London today?</h1>
+    <h3>Enter your postcode to find out!</h3>
+    <form class="form-inline" action="/attractions" method="post">
+        <div id="input" class="form-group mx-sm-3 mb-2 input">
+            <input type="text" class="form-control mx-sm-1" name="inputPostCode" id="inputPostCode"
+                placeholder="SW1A 1AA" autocomplete="off" required pattern="[a-zA-Z0-9\s]+">
+        </div>
+        <button type="submit" class="btn btn-primary mb-2 input"> Find out </button>
+    </form>
+
+    <div id="error">
+        {% if error %}
+            {{ error }}
+        {% endif %}
+    </div>
+</div>
+
+<script>
+    var hamburger = document.getElementById('hamburger');
+    hamburger.classList.add('fade-in');
+
+    var error = document.getElementById('error');
+    var bg = document.getElementById('bg');
+    var title = document.getElementById('title');
+    var bus = document.getElementById('bus');
+    var main = document.getElementById('main');
+    if (error.innerHTML.trim() !== "") {
+        console.log("empty");
+        main.classList.remove('right-in');
+        bus.classList.remove('left-in');
+        bg.remove();
+        title.remove();
+    }
+</script>
 
 {% endblock %}

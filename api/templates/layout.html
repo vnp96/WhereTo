@@ -1,34 +1,45 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{{ url_for('static', filename = 'styles.css')}}">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-    <title>{% block title%} WhereTo {% endblock %}</title>
-</head>
-
-<body>
-    <header>
-        <div class="header-left"> LOGO </div>
-        <h2><a style="color: white; text-decoration:none" href="/">WhereTo</a></h2>
-        <div class="header-right">
-            <a href="#">Popular</a>
-            <a href="#">Search</a>
-            <a href="#">More</a>
-        </div>
-    </header>
-    <div style="height: 50px;"></div>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    <link rel="icon" type="image/x-icon" href="/static/icon.png">
+    <link rel="stylesheet" href="{{ url_for('static', filename = 'layout.css')}}" />
+    {% block css %}{% endblock %}
     
+    <title>{% block title%} WhereTo {% endblock %}</title>
+  </head>
+  
+  <nav>
+    <div class="side-panel" id="sidePanel">
+      <button onclick="toggleSidePanel()">Close</button>
+      <a href="#"><h3 class="side-title">About WhereTo</h3></a>
+      <p>Welcome to WhereTo, your go-to app for discovering the hidden gems around you! 
+        With a simple input of your postcode, WhereTo utilizes powerful APIs to curate a 
+        list of the closest attractions just for you. Explore the city like never before 
+        by clicking on your favorite attractions, and let our integration with the TFL 
+        API guide you seamlessly to your chosen destination. WhereTo is not just an app, 
+        it's your personalized companion for navigating and experiencing the best of your 
+        surroundings. Start your adventure with WhereTo today</p>
+    </div>
+  </nav>
+
+  <script>
+    function toggleSidePanel() {
+      const sidePanel = document.getElementById("sidePanel");
+      sidePanel.style.right = (sidePanel.style.right === "0px") ? "-300px" : "0";
+    }
+  </script>
+
+  <body>
+
+    <img id="hamburger" onclick="toggleSidePanel()" src="/static/hamburger.svg" alt="hamburger icon" />
+
     {% block body %}{% endblock %}
 
-    <footer class="position-absolute bottom-0 end-0">
-        <div>&copy;</div>
-    </footer>
-
-</body>
+  </body>
 
 </html>
