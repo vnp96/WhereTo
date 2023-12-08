@@ -8,7 +8,6 @@ body {
   min-width: 1000px;
   margin: 0;
   padding: 0;
-  /* overflow: hidden; */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -16,8 +15,8 @@ body {
 
 #hamburger {
   position: absolute;
-  top: 20px;
-  right: 20px;
+  top: 30px;
+  right: 30px;
   height: 5%;
   cursor: pointer;
 }
@@ -141,6 +140,10 @@ body {
   z-index: 1;
 }
 
+.input {
+  margin: 20px;
+}
+
 .right-in {
   transform: translateX(100%);
   visibility: hidden;
@@ -157,9 +160,4 @@ body {
     transform: translateX(0);
     visibility: visible;
   }
-}
-
-/* for results page */
-.route-res {
-  all: unset;
 }

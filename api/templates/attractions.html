@@ -1,29 +1,44 @@
 {% extends "layout.html" %}
 
+{% block css %}
+<link rel="stylesheet" href="{{ url_for('static', filename = 'attractions.css')}}" />
+{% endblock %}
+
 {% block body%}
-    <div class="container">
-        <div style="height: 30px;"></div>
-        <h1>What's happening in London today?</h1>
-        <div style="height: 30px;"></div>
-        <div class="subcontainer fade-in">
-            <div class="list-group list-group-checkable d-grid gap-2 border-0">
-                {% for attraction in attractions  %}
-                    <form id="getDetails{{ attraction['id'] }}" action="/results" method="POST" >
-                        <input type="hidden" name="id" value={{ attraction['id'] }} />
-                        <input type="hidden" name="post_code" value= {{ post_code }} />
-                        <label class="list-group-item rounded-3 py-3" for="listGroupCheckableRadios1">
-                            <button class="route-res" type="submit" form="getDetails{{ attraction['id'] }}" value="Submit">
-                            <p style="color: royalblue;">{{ attraction['name'] }}</p>
-                            <span class="d-block small opacity-50">{{ attraction['duration'] }} min to get there</span>
-                        </button>
-                        </label>
-                    </form>
-                    {% endfor %}
+<h1>Most popular attractions near you</h1>
+<section class="hero-section">
+  <div class="card-grid">
+    {% for attraction in attractions  %}
+    <form id="getDetails{{ attraction['id'] }}" class="card fade-in" action="/results" method="POST" >
+        <input type="hidden" name="id" value={{ attraction['id'] }} />
+        <input type="hidden" name="post_code" value= {{ post_code }} />
+        <button class="route-res" type="submit" form="getDetails{{ attraction['id'] }}" value="Submit">
+            <div class="card__background" style="background-image: url(https://images.unsplash.com/photo-1557177324-56c542165309?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80)"></div>
+            <div class="card__content">
+                <div>
+                    <p class="card__category">{{ attraction['subtype'] }}</p>
+                    <h3 class="card__heading">{{ attraction['name'] }}</h3>
+                </div>
+                <p class="card__eta">{{ attraction['duration'] }} min to get there</p>
             </div>
-            <img style="height: 210px" src="https://all.accor.com/magazine/imagerie/bloc-1-4fc1.jpg"
-                alt="gif">
-        </div>
-        <br><br>
-    </div>
+        </button>
+    </form>
+    {% endfor %}
+  <div>
+</section>
+
+<div class="bus-container">
+    <img id="bus" class="bg-bus left-in" src="/static/bus.gif" alt="bus">
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const elements = document.querySelectorAll('.fade-in');
+
+      elements.forEach(function (element, index) {
+        element.style.animationDelay = index * 0.2 + "s";
+      });
+    });
+</script>
 
 {% endblock %}

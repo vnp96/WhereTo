@@ -80,11 +80,12 @@ def get_tfl_journey(start, attraction):
         + "/to/"
         + parse_postcode(attraction[1])
     )
-
+    print(response.status_code)
     if response.status_code == 200:
         data = response.json()["journeys"][0]
         cur_route = {"id": attraction[2],
                      "name": attraction[0],
+                     "subtype": attraction[3] if attraction[3] else 'restaurant',
                      "duration": data["duration"],
                      'response_code': response.status_code}
     else:

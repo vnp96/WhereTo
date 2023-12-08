@@ -48,6 +48,8 @@ def attractions_page():
                                error="That's not a postcode! Please try "
                                      "another.")
 
+    print(attractions_list)
+
     return render_template(
         "attractions.html", post_code=postcode, attractions=attractions_list
     )
@@ -56,9 +58,7 @@ def attractions_page():
 @app.route("/results", methods=["POST"])
 def show_res():
     id_attr = request.form.get("id")
-    print("Postcode passed along is " + request.form.get("post_code"))
     post_code = parse_postcode(request.form.get("post_code"))
-    print(id_attr, post_code)
     attr_details = dbConnection.get_data_from_db('dbQueries',
                                                  'get_attr_details',
                                                  (id_attr,))[0]
@@ -84,7 +84,7 @@ def show_res():
     return render_template("results.html", info=info, legs=legs)
 
 
-def get_attractions(postcode):  # should take in the start postcode
+def get_attractions(postcode):
     latitude, longitude = postcode_to_coordinates(postcode)
     if latitude is None or longitude is None:
         return None
@@ -100,7 +100,7 @@ def get_attractions(postcode):  # should take in the start postcode
 
 
 def get_route_details(postcode_source,
-                      postcode_dest):  # should take in the start postcode
+                      postcode_dest):
     postcode_source = parse_postcode(postcode_source)
     postcode_dest = parse_postcode(postcode_dest)
     response = requests.get(
