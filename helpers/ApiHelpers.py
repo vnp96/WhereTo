@@ -37,13 +37,17 @@ def get_tfl_journey(start, attraction):
         + "/to/"
         + parse_postcode(attraction[1])
     )
-    print(response.status_code)
+    
+    print("tfl response: " + str(response.status_code))
+
     if response.status_code == 200:
         data = response.json()["journeys"][0]
         cur_route = {"id": attraction[2],
                      "name": attraction[0],
                      "subtype": attraction[3] if attraction[3] else 'restaurant',
                      "duration": data["duration"],
+                     'image_link_1': attraction[4],
+                     'image_link_2': attraction[5],
                      'response_code': response.status_code}
     else:
         cur_route = {'response_code': response.status_code}
@@ -58,6 +62,3 @@ def parallel_tfl_requests(start, attractions):
 
     return attraction_results
 
-
-
-# print(retrieve_tfl_journey("EC4R9HA","SW72BX"))

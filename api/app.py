@@ -47,12 +47,10 @@ def attractions_page():
         return render_template("index.html",
                                error="That's not a London postcode! Please try another.")
     if attractions_list[0]['response_code'] != 200:
-        print("TFL response: " + attractions_list[0]['response_code'])
+        print("TFL response: " + str(attractions_list[0]['response_code']))
         return error_page()
-    
-    return render_template(
-        "attractions.html", post_code=postcode, attractions=attractions_list
-    )
+
+    return render_template("attractions.html", post_code=postcode, attractions=attractions_list)
 
 
 @app.route("/results", methods=["GET", "POST"])
@@ -108,10 +106,13 @@ def get_attractions(postcode):  # should take in the start postcode
                                                           latitude))
 
     attraction_results = parallel_tfl_requests(postcode, query_results)
+    
     for attraction in attraction_results:
         if attraction["response_code"] != 200:
             return [{"response_code": attraction["response_code"]}]
+    
     attraction_results.sort(key=lambda x: x["duration"])
+    
     return attraction_results
 
 

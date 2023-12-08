@@ -13,7 +13,8 @@
             </div>
             <table class="details">
                 {% for key, value in info.items() %}
-                    {% if key != 'name' and key != 'subtype'%}
+                    {% if key != 'name' and key != 'subtype'
+                    and key != 'image_link_1' and key != 'image_link_2' %}
                         <tr>
                             <td style="text-transform: capitalize; vertical-align: text-top;">{{ key }}</td>
                             <td class="one">:</td>
@@ -29,13 +30,7 @@
                 {% endfor %}
             </table>
         </div>
-        {% if info['subtype'] == 'restaurant' %}
-            <img class="round-image" src="/static/restaurant.jpg" alt="restaurant image">
-        {% elif info['subtype'] == 'attraction' %}
-            <img class="round-image" src="/static/attractions.jpg" alt="tourist attraction image">
-        {% else %}
-            <img class="round-image" src="/static/sights.jpg" alt="sightseeing image">
-        {% endif %}
+            <img class="round-image" src="{{ info['image_link_2'] }}" alt="image of attraction">
     </div>
 
     <div id="LineTime">
@@ -81,6 +76,25 @@
             </div>
         </div>
     </div>
+
+    <div style="display: flex; width: 250px; justify-content: space-between;">
+        <button class="btn btn-primary mb-2 back-btn" onclick="goBack()">Go back</button>
+        <a class="btn btn-primary mb-2 back-btn" href="/">Go to main page</a>
+    </div>
+    <script>
+        function goBack() {
+          if (window.history && window.history.replaceState) {
+            // Use replaceState to go back without triggering form resubmission alert
+            window.history.replaceState(null, null, window.location.href);
+            // Navigate back one step
+            window.history.back();
+          } else {
+            // Fallback for browsers that do not support replaceState
+            window.history.back();
+          }
+        }
+      </script>
+    
     <div id="mag" class="mag"></div>
     <script>
         var draggableElement = document.getElementById('mag');

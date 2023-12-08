@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block body%}
-<h1>Most popular attractions near you</h1>
+<h1 class="title">Most popular attractions near you</h1>
 <section class="hero-section">
   <div class="card-grid">
     {% for attraction in attractions  %}
@@ -14,13 +14,7 @@
         <input type="hidden" name="post_code" value= {{ post_code }} />
         <button class="route-res" type="submit" form="getDetails{{ attraction['id'] }}" value="Submit">
             <div class="card__background">
-              {% if attraction['subtype'] == 'restaurant' %}
-                <img src="/static/restaurant.jpg" alt="restaurant image">
-              {% elif attraction['subtype'] == 'attraction' %}
-                <img src="/static/attractions.jpg" alt="tourist attraction image">
-              {% else %}
-                <img src="/static/sights.jpg" alt="sightseeing image">
-              {% endif %}
+                <img src="{{ attraction['image_link_1'] }}" alt="image of attraction">
             </div>
             <div class="card__content">
                 <div>
@@ -34,6 +28,21 @@
     {% endfor %}
   <div>
 </section>
+
+<button class="btn btn-primary mb-2 back-btn fade-in-later" onclick="goBack()">Go back</button>
+    <script>
+        function goBack() {
+          if (window.history && window.history.replaceState) {
+            // Use replaceState to go back without triggering form resubmission alert
+            window.history.replaceState(null, null, window.location.href);
+            // Navigate back one step
+            window.history.back();
+          } else {
+            // Fallback for browsers that do not support replaceState
+            window.history.back();
+          }
+        }
+      </script>
 
 <div class="bus-container">
     <img id="bus" class="bg-bus left-in" src="/static/bus.gif" alt="bus">

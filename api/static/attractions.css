@@ -28,6 +28,10 @@ body {
   all: unset;
 }
 
+.title {
+  margin-bottom: 25px;
+}
+
 .bus-container {
   display: flex;
   justify-content: center;
@@ -41,7 +45,7 @@ body {
 .bg-bus {
   position: absolute;
   height: 45%;
-  bottom: 0;
+  bottom: -30px;
   left: 10%;
   z-index: -1;
 }
@@ -159,6 +163,13 @@ body {
   animation: fadeIn 1.5s ease-in-out forwards;
   animation-delay: 0.2s;
 }
+
+.fade-in-later {
+  opacity: 0;
+  animation: fadeIn 1.5s ease-in-out forwards;
+  animation-delay: 1s;
+}
+
 
 @keyframes fadeIn {
   0% {
