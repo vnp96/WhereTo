@@ -104,8 +104,8 @@ def get_attractions(postcode):  # should take in the start postcode
 
     attraction_results = parallel_tfl_requests(postcode, query_results)
     for attraction in attraction_results:
-        if attraction["response_code"]!=200:
-            return [{"response_code":attraction["response_code"]}]     
+        if attraction["response_code"] != 200:
+            return [{"response_code": attraction["response_code"]}]
     attraction_results.sort(key=lambda x: x["duration"])
     return attraction_results
 
