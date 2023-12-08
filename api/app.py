@@ -43,20 +43,19 @@ def attractions_page():
     test_db_connection()
 
     attractions_list = get_attractions(postcode)
+    if attractions_list is None:
+        return render_template("index.html",
+                               error="That's not a London postcode! Please try another.")
     if attractions_list[0]['response_code'] != 200:
         print("TFL response: " + attractions_list[0]['response_code'])
         return error_page()
-    if attractions_list is None:
-        return render_template("index.html",
-                               error="That's not a postcode! Please try "
-                                     "another.")
     
     return render_template(
         "attractions.html", post_code=postcode, attractions=attractions_list
     )
 
 
-@app.route("/results", methods=["POST"])
+@app.route("/results", methods=["GET", "POST"])
 def show_res():
     if request.method == 'GET':
         return redirect("/", code=302)
@@ -84,7 +83,8 @@ def show_res():
         for data in all_data:
             leg = {'duration': data['duration'],
                    'summary': data['instruction']['summary'],
-                   'steps': [step['descriptionHeading'] + step['description'] for step in data['instruction']['steps']],
+                   'steps': [step['descriptionHeading'] + step['description'] 
+                             for step in data['instruction']['steps']],
                    'arrivalPoint': data['arrivalPoint']['commonName'],
                    'path': [stop['name'] for stop in data['path']['stopPoints']]}
             legs.append(leg)
@@ -95,7 +95,6 @@ def show_res():
     return render_template("results.html", info=info, duration=duration, legs=legs)
 
 
-# @cache.cached(timeout=100)
 def get_attractions(postcode):  # should take in the start postcode
     latitude, longitude = postcode_to_coordinates(postcode)
     if latitude is None or longitude is None:
