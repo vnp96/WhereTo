@@ -2,6 +2,7 @@ import json
 
 import requests
 from flask import Flask, render_template, request, redirect
+import requests_cache
 from helpers.DBClass import BorgDB
 from helpers.ApiHelpers import parallel_tfl_requests
 from helpers.PostCodeHelpers import parse_postcode, postcode_to_coordinates
@@ -9,6 +10,7 @@ from helpers.PostCodeHelpers import parse_postcode, postcode_to_coordinates
 # usage: flask --app=api/app.py run
 app = Flask(__name__)
 
+requests_cache.install_cache('test_cache', backend='sqlite', expire_after=100)
 dbConnection = BorgDB()
 
 
@@ -43,6 +45,9 @@ def attractions_page():
     test_db_connection()
 
     attractions_list = get_attractions(postcode)
+    if attractions_list[0]['response_code'] != 200:
+        print(attractions_list[0]['response_code'])
+        return error_page()
     if attractions_list is None:
         return render_template("index.html",
                                error="That's not a postcode! Please try "
@@ -94,7 +99,8 @@ def show_res():
     return render_template("results.html", info=info, duration=duration, legs=legs)
 
 
-def get_attractions(postcode):
+# @cache.cached(timeout=100)
+def get_attractions(postcode):  # should take in the start postcode
     latitude, longitude = postcode_to_coordinates(postcode)
     if latitude is None or longitude is None:
         return None
@@ -105,11 +111,10 @@ def get_attractions(postcode):
                                                           latitude))
 
     attraction_results = parallel_tfl_requests(postcode, query_results)
-    try:
-        attraction_results.sort(key=lambda x: x["duration"])
-    except KeyError:
-        print("WARNING: Duration were not returned as part of request.")
-        print(json.dumps(attraction_results, indent=4))
+    for attraction in attraction_results:
+        if attraction["response_code"] != 200:
+            return [{"response_code": attraction["response_code"]}]
+    attraction_results.sort(key=lambda x: x["duration"])
     return attraction_results
 
 
@@ -123,6 +128,7 @@ def get_route_details(postcode_source,
         + "/to/"
         + postcode_dest
     )
+    print("Used cache: {}".format(response.from_cache))
     print("Route details request from " + postcode_source +
           " to " + postcode_dest + " has returned: HTTP " +
           str(response.status_code))
