@@ -70,7 +70,9 @@ def show_res():
             'subtype': attr_details[3],
             'description': attr_details[4],
             'post_code': attr_details[5],
-            'rating': attr_details[6]}
+            'rating': attr_details[6],
+            'image_link_1': attr_details[7],
+            'image_link_2': attr_details[8]}
 
     route_details = get_route_details(post_code, info['post_code'])
     if route_details['response_code'] != 200:
