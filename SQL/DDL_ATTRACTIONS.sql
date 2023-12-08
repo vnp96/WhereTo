@@ -14,4 +14,10 @@ CREATE TABLE attractions
 ALTER TABLE attractions
 ADD CONSTRAINT attractions_unique_name UNIQUE (name);
 
+ALTER TABLE attractions
+ADD COLUMN image_link_1 VARCHAR;
+
+ALTER TABLE attractions
+ADD COLUMN image_link_2 VARCHAR;
+
 commit;

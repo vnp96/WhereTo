@@ -2,7 +2,6 @@ import json
 
 import requests
 from flask import Flask, render_template, request, redirect
-import requests_cache
 from helpers.DBClass import BorgDB
 from helpers.ApiHelpers import parallel_tfl_requests
 from helpers.PostCodeHelpers import parse_postcode, postcode_to_coordinates
@@ -10,7 +9,6 @@ from helpers.PostCodeHelpers import parse_postcode, postcode_to_coordinates
 # usage: flask --app=api/app.py run
 app = Flask(__name__)
 
-requests_cache.install_cache('test_cache', backend='sqlite', expire_after=100)
 dbConnection = BorgDB()
 
 
@@ -46,7 +44,7 @@ def attractions_page():
 
     attractions_list = get_attractions(postcode)
     if attractions_list[0]['response_code'] != 200:
-        print(attractions_list[0]['response_code'])
+        print("TFL response: " + attractions_list[0]['response_code'])
         return error_page()
     if attractions_list is None:
         return render_template("index.html",
@@ -126,7 +124,6 @@ def get_route_details(postcode_source,
         + "/to/"
         + postcode_dest
     )
-    print("Used cache: {}".format(response.from_cache))
     print("Route details request from " + postcode_source +
           " to " + postcode_dest + " has returned: HTTP " +
           str(response.status_code))
