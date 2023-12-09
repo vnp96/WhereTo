@@ -14,7 +14,8 @@
             <table class="details">
                 {% for key, value in info.items() %}
                     {% if key != 'name' and key != 'subtype'
-                    and key != 'image_link_1' and key != 'image_link_2' %}
+                    and key != 'image_link_1' and key != 'image_link_2'
+                            and key != 'duration' %}
                         <tr>
                             <td style="text-transform: capitalize; vertical-align: text-top;">{{ key }}</td>
                             <td class="one">:</td>
