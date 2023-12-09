@@ -2,9 +2,9 @@ import json
 
 from flask import Flask, render_template, request, redirect
 from helpers.DBClass import BorgDB
-from helpers.ApiHelpers import parallel_tfl_requests, get_route_details
+from helpers.ApiHelpers import parallel_tfl_requests, get_journey_source_to_dest
 from helpers.PostCodeHelpers import parse_postcode, postcode_to_coordinates
-from dto.Attractions import AttractionDetails, RouteDetails
+from dto.DataClasses import AttractionDetails, TflJourneyResponse
 
 # usage: flask --app=api/app.py run
 app = Flask(__name__)
@@ -68,23 +68,20 @@ def show_results():
                                       'get_attr_details',
                                       (id_attr,))[0])
 
-    route_response = get_route_details(post_code, info.post_code)
-    if route_response['response_code'] != 200:
+    route_resp_dict = get_journey_source_to_dest(post_code, info.post_code)
+    if route_resp_dict['response_code'] != 200:
         return error_page()
 
-    legs = []
-    duration = None
     try:
-        route_details = RouteDetails.from_api_response(route_response)
-        duration = route_details.duration
-        legs = route_details.legs
+        duration = route_resp_dict["duration"]
+        legs = route_resp_dict["legs"]
+        return render_template(
+            "results.html", info=info.get_dict(), duration=duration, legs=legs
+        )
     except KeyError:
         print("WARNING: Legs were not returned as part of request.")
-        print(json.dumps(route_response, indent=4))
-
-    return render_template(
-        "results.html", info=info.get_dict(), duration=duration, legs=legs
-    )
+        print(json.dumps(route_resp_dict, indent=4))
+        return error_page()
 
 
 def get_attractions(postcode):  # should take in the start postcode
@@ -94,8 +91,10 @@ def get_attractions(postcode):  # should take in the start postcode
     query_results = dbConnection.get_data_from_db(
         "dbQueries", "get_attractions", params=(longitude, latitude, latitude)
     )
+    attr_query_details = [AttractionDetails.from_details_query(query_result)
+                          for query_result in query_results]
 
-    attraction_results = parallel_tfl_requests(postcode, query_results)
+    attraction_results = parallel_tfl_requests(postcode, attr_query_details)
 
     for attraction in attraction_results:
         if attraction["response_code"] != 200:
