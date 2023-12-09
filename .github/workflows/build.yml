@@ -35,7 +35,7 @@ jobs:
           pip install -r requirements.txt
 
       - name: Run Tests
-        run: python -m unittest discover -s api/ -p '*_test.py'
+        run: python -m unittest discover -s helpers/ -p '*_test.py'
           
   deploy-to-vercel:
     needs: pytest
