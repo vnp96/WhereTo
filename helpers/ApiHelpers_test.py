@@ -6,7 +6,6 @@ import pytest
 
 from helpers.ApiHelpers import *
 from helpers.PostCodeHelpers import parse_postcode
-from dto.DataClasses import AttractionDetails
 
 POSTCODE_SOURCE = "EC4R 9HA"
 POSTCODE_DEST = "SW7 2BX"

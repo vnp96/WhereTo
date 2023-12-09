@@ -1,5 +1,5 @@
-from PostCodeHelpers import is_london_postcode, parse_postcode
-from PostCodeHelpers import postcode_to_coordinates
+from helpers.PostCodeHelpers import is_london_postcode, parse_postcode
+from helpers.PostCodeHelpers import postcode_to_coordinates
 
 
 def test_parse_postcode():
