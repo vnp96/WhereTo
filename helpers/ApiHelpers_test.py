@@ -3,29 +3,65 @@ from http import HTTPStatus
 
 import pytest
 
-from ApiHelpers import get_attr_with_duration
-from pytest_mock import mocker
+from helpers.ApiHelpers import tfl_journey, get_journey_source_to_dest
 
 
 # Will need to have downloaded pytest-mock
 
 
 @pytest.fixture()
-def fake_tfl_journey():
-    """
-    Fake TFL Journey from London Bridge (EC4R9HA) to Imperial College (SW72BX)
-    """
-    with open("../sample_data/mockTFLJourney.json") as f:
+def fixed_api_response():
+    with open("sample_data/mockTFLJourney.json") as f:
         return json.load(f)
 
 
-def test_retrieve_transit_time_using_mocks(mocker, fake_tfl_journey):
+def patch_tfl_api(mocker, fixed_api_response):
     fake_resp = mocker.Mock()
-    fake_resp.json = mocker.Mock(return_value=fake_tfl_journey)
+    fake_resp.json = mocker.Mock(return_value=fixed_api_response)
     fake_resp.status_code = HTTPStatus.OK
 
     mocker.patch("requests.get", return_value=fake_resp)
 
-    journey_info = retrieve_tfl_journey("EC4R9HA", "SW72BX")
-    assert journey_info == JourneyInfo.from_dict(fake_tfl_journey)
 
+def patch_tfl_api_negative(mocker, fixed_api_response):
+    fake_resp = mocker.Mock()
+    fake_resp.json = mocker.Mock(return_value=fixed_api_response)
+    fake_resp.status_code = HTTPStatus.NOT_FOUND
+
+    mocker.patch("requests.get", return_value=fake_resp)
+
+
+def test_tfl_journey(mocker, fixed_api_response):
+    patch_tfl_api(mocker, fixed_api_response)
+    journey_info = tfl_journey("EC4R9HA", "SW72BX")
+    assert journey_info.response_code == 200
+    assert journey_info.duration == 34
+    assert len(journey_info.legs) == 3
+    assert journey_info.legs[1]["duration"] == 16
+    assert journey_info.legs[2]["summary"] == "Walk to SW7 2BX"
+
+
+def test_tfl_journey_negative(mocker, fixed_api_response):
+    patch_tfl_api_negative(mocker, fixed_api_response)
+    journey_info = tfl_journey("EC4R9HA", "SW72BX")
+    assert journey_info.response_code != 200
+    assert journey_info.duration is None
+    assert journey_info.legs is None
+
+
+def test_get_journey_source_to_dest(mocker, fixed_api_response):
+    patch_tfl_api(mocker, fixed_api_response)
+    journey_dict = get_journey_source_to_dest("EC4R 9HA", "Sw7 2b x")
+    assert journey_dict["response_code"] == 200
+    assert journey_dict["duration"] == 34
+    assert len(journey_dict["legs"]) == 3
+    assert journey_dict["legs"][1]["duration"] == 16
+    assert journey_dict["legs"][2]["summary"] == "Walk to SW7 2BX"
+
+
+def test_get_journey_source_to_dest_negative(mocker, fixed_api_response):
+    patch_tfl_api_negative(mocker, fixed_api_response)
+    journey_dict = get_journey_source_to_dest("EC4R 9HA", "Sw7 2b x")
+    assert journey_dict["response_code"] != 200
+    assert journey_dict["duration"] is None
+    assert journey_dict["legs"] is None
