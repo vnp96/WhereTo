@@ -2,9 +2,10 @@ import json
 
 from flask import Flask, render_template, request, redirect
 from helpers.DBClass import BorgDB
-from helpers.ApiHelpers import parallel_tfl_requests, get_journey_source_to_dest
+from helpers.ApiHelpers import (parallel_tfl_requests,
+                                get_journey_source_to_dest)
 from helpers.PostCodeHelpers import parse_postcode, postcode_to_coordinates
-from dto.DataClasses import AttractionDetails, TflJourneyResponse
+from dto.DataClasses import AttractionDetails
 
 # usage: flask --app=api/app.py run
 app = Flask(__name__)
@@ -75,9 +76,10 @@ def show_results():
     try:
         duration = route_resp_dict["duration"]
         legs = route_resp_dict["legs"]
-        return render_template(
-            "results.html", info=info.get_dict(), duration=duration, legs=legs
-        )
+        return render_template("results.html",
+                               info=info.get_dict(),
+                               duration=duration,
+                               legs=legs)
     except KeyError:
         print("WARNING: Legs were not returned as part of request.")
         print(json.dumps(route_resp_dict, indent=4))
