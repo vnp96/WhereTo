@@ -13,6 +13,8 @@ API = BASE_URL + "{postcode_start}/to/{postcode_end}?api_key={api_key}"
 
 def tfl_journey(start: str, end: str) -> TflJourneyResponse:
     api_key = os.environ.get("WHERE2TFL_KEY")
+    if start == end:
+        return TflJourneyResponse.same_location(end)
     url = API.format(postcode_start=start, postcode_end=end, api_key=api_key)
     resp = requests.get(url)
     return TflJourneyResponse.from_api_response(resp)

@@ -3,7 +3,7 @@ from geopy import Nominatim
 
 def parse_postcode(postcode):
     assert isinstance(postcode, str)
-    parsed_postcode = postcode.replace(" ", "").lower()
+    parsed_postcode = postcode.replace(" ", "").upper()
     if parsed_postcode.isalnum():
         return parsed_postcode
     else:

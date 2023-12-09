@@ -53,6 +53,20 @@ class TflJourneyResponse:
                 response_code=response.status_code
             )
 
+    @classmethod
+    def same_location(cls, postcode) -> "TflJourneyResponse":
+        return cls(
+            response_code=200,
+            duration=0,
+            legs=[{
+                "duration": 0,
+                "summary": "You are already there!",
+                "steps": [],
+                "arrivalPoint": postcode,
+                "path": [],
+            }]
+        )
+
     def get_dict(self):
         return asdict(self)
 
@@ -92,9 +106,9 @@ class AttractionDetails:
 
     def get_dict(self) -> dict:
         dict_rep = asdict(self)
-        if not self.response_code:
+        if self.response_code is None:
             del dict_rep['response_code']
-        if not self.duration:
+        if self.duration is None:
             del dict_rep['duration']
         return dict_rep
 
