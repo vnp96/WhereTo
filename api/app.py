@@ -104,5 +104,3 @@ def get_attractions(postcode):  # should take in the start postcode
     attraction_results.sort(key=lambda x: x["duration"])
 
     return attraction_results
-
-
