@@ -45,7 +45,8 @@ def parallel_tfl_requests(start: str, attractions: list[AttractionDetails])\
     with ThreadPoolExecutor() as executor:
         # Parallelize the API requests
         attraction_results = list(
-            executor.map(lambda x: get_attr_with_duration(start, x), attractions)
+            executor.map(lambda x: get_attr_with_duration(start, x),
+                         attractions)
         )
 
     return attraction_results
