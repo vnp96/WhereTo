@@ -86,7 +86,7 @@ def show_results():
         return error_page()
 
 
-def get_attractions(postcode):  # should take in the start postcode
+def get_attractions(postcode):
     latitude, longitude = postcode_to_coordinates(postcode)
     if latitude is None or longitude is None:
         return None

@@ -1,9 +1,9 @@
-.container {
-  padding: 16px;
-}
-
 body {
   background-color: #fffeec;
+}
+
+.container {
+  padding: 16px;
 }
 
 .side-panel {
