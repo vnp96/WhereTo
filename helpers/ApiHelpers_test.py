@@ -4,7 +4,9 @@ from http import HTTPStatus
 
 import pytest
 
-from helpers.ApiHelpers import *
+from dto.DataClasses import AttractionDetails, TflJourneyResponse
+from helpers.ApiHelpers import tfl_journey, get_journey_source_to_dest, \
+    get_attr_with_duration, parallel_tfl_requests
 from helpers.PostCodeHelpers import parse_postcode
 
 POSTCODE_SOURCE = "EC4R 9HA"
@@ -44,6 +46,15 @@ def fixed_query_details_object():
 
 
 def test_tfl_journey(patch_tfl_api):
+    journey_info_1 = tfl_journey(parse_postcode(POSTCODE_SOURCE),
+                                 parse_postcode(POSTCODE_DEST))
+    journey_info_2 = tfl_journey(parse_postcode(POSTCODE_SOURCE),
+                                 parse_postcode(POSTCODE_DEST))
+    assert journey_info_1.response_code == journey_info_2.response_code
+    assert journey_info_1.rand_value == journey_info_2.rand_value
+
+
+def test_tfl_journey_caching(patch_tfl_api):
     journey_info = tfl_journey(parse_postcode(POSTCODE_SOURCE),
                                parse_postcode(POSTCODE_DEST))
     assert journey_info.response_code == 200
@@ -54,8 +65,9 @@ def test_tfl_journey(patch_tfl_api):
 
 
 def test_tfl_journey_negative(patch_tfl_api_negative):
-    journey_info = tfl_journey(parse_postcode(POSTCODE_SOURCE),
-                               parse_postcode(POSTCODE_DEST))
+    # Need to flip because of caching
+    journey_info = tfl_journey(parse_postcode(POSTCODE_DEST),
+                               parse_postcode(POSTCODE_SOURCE))
     assert isinstance(journey_info, TflJourneyResponse)
     assert journey_info.response_code != 200
     assert journey_info.duration is None
@@ -73,8 +85,8 @@ def test_get_journey_source_to_dest(patch_tfl_api):
 
 
 def test_get_journey_source_to_dest_negative(patch_tfl_api_negative):
-    journey_dict = get_journey_source_to_dest(POSTCODE_SOURCE,
-                                              POSTCODE_DEST)
+    journey_dict = get_journey_source_to_dest(POSTCODE_DEST,
+                                              POSTCODE_SOURCE)
     assert journey_dict["response_code"] != 200
     assert journey_dict["duration"] is None
     assert journey_dict["legs"] is None

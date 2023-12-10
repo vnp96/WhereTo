@@ -6,6 +6,7 @@ class TflJourneyResponse:
     response_code: int
     duration: int = None
     legs: list = None
+    rand_value: int = None
 
     @classmethod
     def from_api_response(cls, response) -> "TflJourneyResponse":
@@ -89,5 +90,3 @@ class AttractionDetails:
         if self.duration is None:
             del dict_rep['duration']
         return dict_rep
-
-

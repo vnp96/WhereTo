@@ -7,6 +7,11 @@ from helpers.ApiHelpers import (parallel_tfl_requests,
 from helpers.PostCodeHelpers import parse_postcode, postcode_to_coordinates
 from dto.DataClasses import AttractionDetails
 
+config = {
+    "DEBUG": False,
+    "CACHE_TYPE": "SimpleCache",
+    "CACHE_DEFAULT_TIMEOUT": 300
+}
 # usage: flask --app=api/app.py run
 app = Flask(__name__)
 

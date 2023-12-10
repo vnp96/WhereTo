@@ -3,7 +3,8 @@ from http import HTTPStatus
 
 import pytest
 
-from dto.DataClasses import *
+from dto.DataClasses import (AttractionDetails,
+                             TflJourneyResponse)
 
 POSTCODE_SOURCE = "EC4R 9HA"
 POSTCODE_DEST = "SW7 2BX"
@@ -74,7 +75,7 @@ def test_tjr_get_dict():
     obj = TflJourneyResponse.same_location(POSTCODE_SOURCE)
     dct = obj.get_dict()
 
-    assert len(dct.keys()) == 3
+    assert len(dct.keys()) == 4
     assert dct["response_code"] == obj.response_code
     assert dct["duration"] == obj.duration
 
