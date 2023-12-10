@@ -29,20 +29,7 @@
   <div>
 </section>
 
-<button class="btn btn-primary mb-2 back-btn fade-in-later" onclick="goBack()">Go back</button>
-    <script>
-        function goBack() {
-          if (window.history && window.history.replaceState) {
-            // Use replaceState to go back without triggering form resubmission alert
-            window.history.replaceState(null, null, window.location.href);
-            // Navigate back one step
-            window.history.back();
-          } else {
-            // Fallback for browsers that do not support replaceState
-            window.history.back();
-          }
-        }
-      </script>
+<a href="/"><button class="btn btn-primary mb-2 back-btn fade-in-later">Go back</button></a>
 
 <div class="bus-container">
     <img id="bus" class="bg-bus left-in" src="/static/bus.gif" alt="bus">
