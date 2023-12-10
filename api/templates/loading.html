@@ -13,7 +13,7 @@
             <button hidden="hidden" type="submit" class="btn btn-primary mb-2 input"> Find out </button>
         </form>
         
-        <h3 style="margin-bottom: 10%;">Loading...</h4>
+        <h4 style="margin-bottom: 10%;">Loading...</h4>
     </div>
     <div class="bus-container">
       <img id="bus" class="bg-bus left-right" src="/static/bus.gif" alt="bus">
@@ -23,7 +23,7 @@
         fetch('/check_loading')
           .then(response => response.json())
           .then(data => {
-            if (data.loaded) {
+            if (data.loaded || data.max_try_passed) {
               document.getElementById("attractions").submit();
             } else {
               setTimeout(checkLoading, 2000);

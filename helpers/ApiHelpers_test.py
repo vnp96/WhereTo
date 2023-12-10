@@ -93,11 +93,12 @@ def test_get_journey_source_to_dest_negative(patch_tfl_api_negative):
 
 
 def test_get_attr_with_duration(patch_tfl_api, fixed_query_details_object):
-    attr_with_duration = get_attr_with_duration(POSTCODE_SOURCE,
-                                                fixed_query_details_object)
-    assert isinstance(attr_with_duration, dict)
-    assert attr_with_duration["response_code"] == 200
-    assert attr_with_duration["duration"] == 34
+    attr_with_duration = []
+    get_attr_with_duration(POSTCODE_SOURCE, fixed_query_details_object,
+                           attr_with_duration)
+    assert isinstance(attr_with_duration[0], dict)
+    assert attr_with_duration[0]["response_code"] == 200
+    assert attr_with_duration[0]["duration"] == 34
 
 
 def test_parallel_tfl_requests(patch_tfl_api, fixed_query_details_object):

@@ -19,6 +19,7 @@ app = Flask(__name__)
 
 dbConnection = BorgDB()
 attractionsFound = False
+loading_try = 0
 
 
 def test_db_connection():
@@ -36,7 +37,9 @@ test_db_connection()
 @app.route("/")
 def index():
     global attractionsFound
+    global loading_try
     attractionsFound = False
+    loading_try = 0
     return render_template("index.html")
 
 
@@ -63,7 +66,9 @@ def loading_page():
 @app.route("/check_loading")
 def check_loading():
     global attractionsFound
-    return {'loaded': attractionsFound}
+    global loading_try
+    loading_try += 1
+    return {'loaded': attractionsFound, 'max_try_passed': loading_try > 6}
 
 
 @app.route("/attractions", methods=["GET", "POST"])
