@@ -49,8 +49,8 @@ def error_page(e=None):
 
 @app.route("/loading", methods=["GET", "POST"])
 def loading_page():
-    # if request.method == "GET":
-    #     return redirect("/", code=302)
+    if request.method == "GET":
+        return redirect("/", code=302)
     post_code = parse_postcode(request.form.get("inputPostCode"))
 
     thread = Thread(target=get_attractions, args=(post_code,))
