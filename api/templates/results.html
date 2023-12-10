@@ -15,15 +15,24 @@
                 {% for key, value in info.items() %}
                     {% if key != 'name' and key != 'subtype'
                     and key != 'image_link_1' and key != 'image_link_2'
-                            and key != 'duration' %}
+                            and key != 'duration' and key != 'id' %}
                         <tr>
-                            <td style="text-transform: capitalize; vertical-align: text-top;">{{ key }}</td>
+                            <td style="text-transform: capitalize; vertical-align: text-top;">
+                                {% if key == 'post_code' %}
+                                    Post code
+                                {% else %}
+                                    {{ key }}
+                                {% endif %}
+                            </td>
                             <td class="one">:</td>
                             <td style="text-transform: capitalize; vertical-align: text-top;">
                                 {% if value %}
                                     {{ value }}
                                 {% else %}
                                     N/A
+                                {% endif %}
+                                {% if key == 'rating' %}
+                                     / 10
                                 {% endif %}
                             </td>
                         </tr>

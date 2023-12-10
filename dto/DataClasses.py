@@ -20,6 +20,8 @@ class TflJourneyResponse:
                     "summary": leg["instruction"]["summary"],
                     "steps": [
                         step["descriptionHeading"] + step["description"]
+                        if step["descriptionHeading"][-1] == " " 
+                        else step["descriptionHeading"] + " " + step["description"]
                         for step in leg["instruction"]["steps"]
                     ],
                     "arrivalPoint": leg["arrivalPoint"]["commonName"],
