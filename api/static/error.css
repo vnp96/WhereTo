@@ -39,6 +39,37 @@ body {
   height: 200px;
 }
 
+.bus-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  height: 650px;
+  width: 1000px;
+  z-index: -3;
+}
+
+.bg-bus {
+  position: absolute;
+  height: 45%;
+  bottom: -30px;
+  z-index: -1;
+}
+
+.left-right {
+  left: 5%;
+  animation: leftRight 10s ease-in-out infinite;
+}
+
+@keyframes leftRight {
+  0% {
+    left: 5%;
+  }
+  100% {
+    left: 95%;
+  }
+}
+
 .fade-in {
   opacity: 0;
   width: 200px;

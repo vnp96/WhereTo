@@ -1,11 +1,13 @@
 import json
+from threading import Thread
 
 from flask import Flask, render_template, request, redirect
-from helpers.DBClass import BorgDB
+
+from dto.DataClasses import AttractionDetails
 from helpers.ApiHelpers import (parallel_tfl_requests,
                                 get_journey_source_to_dest)
+from helpers.DBClass import BorgDB
 from helpers.PostCodeHelpers import parse_postcode, postcode_to_coordinates
-from dto.DataClasses import AttractionDetails
 
 config = {
     "DEBUG": False,
@@ -16,6 +18,7 @@ config = {
 app = Flask(__name__)
 
 dbConnection = BorgDB()
+attractionsFound = False
 
 
 def test_db_connection():
@@ -32,6 +35,8 @@ test_db_connection()
 
 @app.route("/")
 def index():
+    global attractionsFound
+    attractionsFound = False
     return render_template("index.html")
 
 
@@ -42,11 +47,30 @@ def error_page(e=None):
     return render_template("error.html", error=e)
 
 
+@app.route("/loading", methods=["GET", "POST"])
+def loading_page():
+    if request.method == "GET":
+        return redirect("/", code=302)
+    post_code = parse_postcode(request.form.get("inputPostCode"))
+
+    thread = Thread(target=get_attractions, args=(post_code,))
+    thread.start()
+
+    return render_template("loading.html",
+                           inputPostCode=post_code)
+
+
+@app.route("/check_loading")
+def check_loading():
+    global attractionsFound
+    return {'loaded': attractionsFound}
+
+
 @app.route("/attractions", methods=["GET", "POST"])
 def attractions_page():
     if request.method == "GET":
         return redirect("/", code=302)
-    postcode = parse_postcode(request.form.get("inputPostCode"))
+    postcode = request.form.get("inputPostCode")
 
     attractions_list = get_attractions(postcode)
     if attractions_list is None:
@@ -104,6 +128,9 @@ def get_attractions(postcode):
     attraction_results = parallel_tfl_requests(postcode, attr_query_details)
     filtered_200 = list(filter(lambda attr: attr["response_code"] == 200,
                                attraction_results))
+
+    global attractionsFound
+    attractionsFound = True
     if len(filtered_200) == 0:
         return [{"response_code": attraction_results[0]["response_code"]}]
 
