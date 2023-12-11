@@ -35,7 +35,7 @@ jobs:
           pip install -r requirements.txt
 
       - name: Run Tests
-        run:  pytest helpers/* dto/*
+        run:  pytest helpers/* dto/* api/*
 
   deploy-to-vercel:
     needs: pytest
