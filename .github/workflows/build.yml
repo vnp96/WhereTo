@@ -40,6 +40,7 @@ jobs:
   deploy-to-vercel:
     needs: pytest
     runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
     steps:
       - name: Checkout
         uses: actions/checkout@v3
