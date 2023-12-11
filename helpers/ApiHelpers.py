@@ -27,14 +27,14 @@ BASE_URL = "https://api.tfl.gov.uk/Journey/JourneyResults/"
 API = BASE_URL + "{postcode_start}/to/{postcode_end}?api_key={api_key}"
 
 
-@cache.memoize(60)
+@cache.memoize(300)
 def tfl_journey(start: str, end: str) -> TflJourneyResponse:
     api_key = os.environ.get("WHERE2TFL_KEY")
     if start == end:
         return TflJourneyResponse.same_location(end)
     url = API.format(postcode_start=start, postcode_end=end,
                      api_key=api_key)
-    resp = requests.get(url)
+    resp = requests.get(url, timeout= 8)
     ret = TflJourneyResponse.from_api_response(resp)
     ret.rand_value = int(random.randrange(0, 1000))
     return ret
