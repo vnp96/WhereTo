@@ -34,7 +34,7 @@ def tfl_journey(start: str, end: str) -> TflJourneyResponse:
         return TflJourneyResponse.same_location(end)
     url = API.format(postcode_start=start, postcode_end=end,
                      api_key=api_key)
-    resp = requests.get(url, timeout= 8)
+    resp = requests.get(url, timeout=8)
     ret = TflJourneyResponse.from_api_response(resp)
     ret.rand_value = int(random.randrange(0, 1000))
     return ret
@@ -55,7 +55,7 @@ def get_journey_source_to_dest(postcode_source: str,
 
 
 def get_attr_with_duration(start: str, attraction: AttractionDetails,
-                           attraction_results: list) -> None :
+                           attraction_results: list) -> None:
     tfl_journey_dict = get_journey_source_to_dest(start,
                                                   attraction.post_code)
 
@@ -70,7 +70,8 @@ def parallel_tfl_requests(start: str,
     attraction_results = []
     jobs = []
     for attraction in attractions:
-        thread = Thread(target=get_attr_with_duration, args=(start, attraction, attraction_results))
+        thread = Thread(target=get_attr_with_duration,
+                        args=(start, attraction, attraction_results))
         jobs.append(thread)
         thread.start()
     for job in jobs:
