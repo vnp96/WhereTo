@@ -33,6 +33,18 @@ def test_db_connection():
 
 test_db_connection()
 
+def serve_css(color='fffeec'):
+    with open('api/css_dynamic/index.css', 'r') as file:
+        css_content = file.read()
+
+    color = '#' + color
+    print("color change to "+color)
+    modified_css_content = css_content.replace('{color}', color)
+    with open('api/static/index.css', 'w') as file:
+        file.write(modified_css_content)
+
+serve_css()
+
 
 @app.route("/")
 def index():
@@ -61,6 +73,16 @@ def loading_page():
 
     return render_template("loading.html",
                            inputPostCode=post_code)
+
+
+@app.route("/change", methods=["GET", "POST"])
+def change_color():
+    # if request.method == "GET":
+    #     return redirect("/", code=302)
+    color = request.args.get("color")
+    print("Color received:" + color)
+    serve_css(color)
+    return redirect("/", code=302)
 
 
 @app.route("/check_loading")
