@@ -85,13 +85,13 @@ def change_color():
     else:
         bgColorParam = request.args.get("bgcolor")
         if bgColorParam:
-            if is_valid_hex_color(bgColorParam):
+            if is_valid_hex_color('#' + bgColorParam):
                 bgColor = '#' + bgColorParam
             else:
                 bgColor = bgColorParam
         fontColorParam = request.args.get("fontcolor")
         if fontColorParam:
-            if is_valid_hex_color(fontColorParam):
+            if is_valid_hex_color('#' + fontColorParam):
                 fontColor = '#' + fontColorParam
             else:
                 fontColor = fontColorParam
