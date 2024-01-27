@@ -34,7 +34,12 @@ def test_db_connection():
 
 test_db_connection()
 
-
+@app.context_processor
+def inject_globals():
+    parameters = {
+        'color': globalColor
+    }
+    return parameters
 
 @app.route("/")
 def index():
@@ -44,14 +49,14 @@ def index():
     print("Color is now:" + globalColor)
     attractionsFound = False
     loading_try = 0
-    return render_template("index.html", color=globalColor)
+    return render_template("index.html")
 
 
 @app.errorhandler(404)
 @app.errorhandler(500)
 @app.errorhandler(504)
 def error_page(e=None):
-    return render_template("error.html", error=e, color=globalColor)
+    return render_template("error.html", error=e)
 
 
 @app.route("/loading", methods=["GET", "POST"])
@@ -64,8 +69,7 @@ def loading_page():
     thread.start()
 
     return render_template("loading.html",
-                           inputPostCode=post_code,
-                           color=globalColor)
+                           inputPostCode=post_code)
 
 
 @app.route("/change", methods=["GET"])
@@ -102,7 +106,7 @@ def attractions_page():
 
     return render_template(
         "attractions.html", post_code=postcode,
-        attractions=attractions_list, color=globalColor
+        attractions=attractions_list
     )
 
 
@@ -129,8 +133,7 @@ def show_results():
         return render_template("results.html",
                                info=info.get_dict(),
                                duration=duration,
-                               legs=legs,
-                               color=globalColor)
+                               legs=legs)
     except KeyError:
         print("WARNING: Legs were not returned as part of request.")
         print(json.dumps(route_resp_dict, indent=4))
