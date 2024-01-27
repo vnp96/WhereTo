@@ -2,6 +2,7 @@
 Helper functions for the website
 """
 import os
+import re
 import random
 from threading import Thread
 from timeit import default_timer as timer
@@ -80,3 +81,10 @@ def parallel_tfl_requests(start: str,
     print("Parallel execution for postcode: " + start
           + " took: " + str(end - start_time))
     return attraction_results
+
+
+def is_valid_hex_color(color):
+    # Regular expression for validating hexadecimal color codes
+    hex_color_regex = r'^#?([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$'
+    return bool(re.match(hex_color_regex, color))
+

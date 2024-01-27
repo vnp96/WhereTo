@@ -4,8 +4,8 @@
 <link rel="stylesheet" href="{{ url_for('static', filename = 'attractions.css')}}" />
 <style>
     {% if bgColor %}
-        body {
-            background-color: {{ bgColor }};
+        :root {
+            --bg-colour: {{ bgColor }};
         }
     {% endif %}
 </style>

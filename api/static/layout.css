@@ -1,5 +1,24 @@
+:root{
+  --bg-colour: #fffeec;
+  --panel-colour: #f1efc3;
+  --main-font-colour: #000000;
+  --button-bg-colour: #606060;
+  --button-colour: #fffef8;
+}
+
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+small {
+  color: var(--main-font-colour);
+}
+
 body {
-  background-color: #fffeec;
+  background-color: var(--bg-colour);
 }
 
 .container {
@@ -12,9 +31,9 @@ body {
   right: -300px;
   width: 300px;
   height: 100%;
-  background-color: #f1efc3;
+  background-color: var(--panel-colour);
   padding-top: 20px;
-  color: grey;
+  color: var(--main-font-colour);
   transition: 0.5s;
   display: flex;
   flex-direction: column;
@@ -27,7 +46,7 @@ body {
   padding: 8px 8px 8px 32px;
   text-decoration: none;
   font-size: 20px;
-  color: #818181;
+  color: var(--main-font-colour);
   display: block;
   transition: 0.3s;
   height: 50px;
@@ -40,12 +59,12 @@ body {
 }
 
 .side-panel a:hover {
-  color: black;
+  color: var(--main-font-colour);
 }
 
 .side-panel button {
-  background-color: darkgrey;
-  color: white;
+  background-color: var(--button-bg-colour);
+  color: var(--button-colour);
   padding: 10px;
   border: none;
   width: 80%;
@@ -55,5 +74,5 @@ body {
 }
 
 .side-panel button:hover {
-  color: black;
+  color: var(--main-font-colour);
 }

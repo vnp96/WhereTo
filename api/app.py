@@ -5,7 +5,7 @@ from flask import Flask, render_template, request, redirect
 
 from dto.DataClasses import AttractionDetails
 from helpers.ApiHelpers import (parallel_tfl_requests,
-                                get_journey_source_to_dest)
+                                get_journey_source_to_dest, is_valid_hex_color)
 from helpers.DBClass import BorgDB
 from helpers.PostCodeHelpers import parse_postcode, postcode_to_coordinates
 
@@ -21,6 +21,7 @@ dbConnection = BorgDB()
 attractionsFound = False
 loading_try = 0
 bgColor = '#fffeec'
+fontColor = '#000000'
 
 
 def test_db_connection():
@@ -37,9 +38,11 @@ test_db_connection()
 @app.context_processor
 def inject_globals():
     parameters = {
-        'bgColor': bgColor
+        'bgColor': bgColor,
+        'fontColor': fontColor
     }
     return parameters
+
 
 @app.route("/")
 def index():
@@ -74,13 +77,27 @@ def loading_page():
 
 @app.route("/change", methods=["GET"])
 def change_color():
-    # if request.method == "GET":
-    #     return redirect("/", code=302)
-    color = request.args.get("color")
     global bgColor
-    bgColor = '#' + color
+    global fontColor
+    if request.args.get("default"):
+        bgColor = '#fffeec'
+        fontColor = '#000000'
+    else:
+        bgColorParam = request.args.get("bgcolor")
+        if bgColorParam:
+            if is_valid_hex_color(bgColorParam):
+                bgColor = '#' + bgColorParam
+            else:
+                bgColor = bgColorParam
+        fontColorParam = request.args.get("fontcolor")
+        if fontColorParam:
+            if is_valid_hex_color(fontColorParam):
+                fontColor = '#' + fontColorParam
+            else:
+                fontColor = fontColorParam
 
     return redirect("/", code=302)
+
 
 @app.route("/check_loading")
 def check_loading():

@@ -1,11 +1,15 @@
 /* Reset some default styles */
 :root {
   --bg-colour: #fffeec;
+  --body-text-color: #768390;
+  --header-colour: #3d4351;
+  --timeline-marker-color: #4aa6c7;
+  --marker-outline-color: #ff6b6b;
 }
 
 body {
   background-color: var(--bg-colour);
-  color: #768390;
+  color: var(--body-text-color);
   min-height: 100vh;
   min-width: 1000px;
   margin: 0;
@@ -38,7 +42,7 @@ body {
   height: 300px;
   width: 325px;
   margin: 0 auto;
-  border: 2px solid #ccd5db;
+  border: 2px solid var(--body-text-color);
   object-fit: cover;
 }
 
@@ -66,7 +70,7 @@ body {
 .title > p {
   font-weight: lighter;
   font-size: 20px;
-  color: #6e6e6e;
+  color: var(--header-colour);
   margin-top: 20px;
 }
 .details {
@@ -80,7 +84,7 @@ h3,
 h4,
 h5,
 h6 {
-  color: #3d4351;
+  color: var(--header-colour);
   margin-top: 0;
 }
 
@@ -125,7 +129,7 @@ h6 {
   margin: 0 0 0.5em 0;
   /* text-transform: uppercase; */
   white-space: nowrap;
-  color: #768390;
+  color: var(--header-colour);
   position: absolute;
 }
 
@@ -138,7 +142,7 @@ h6 {
   width: 15px;
 }
 .timeline-marker:before {
-  background: #4aa6c7;
+  background: var(--timeline-marker-color);
   border: 3px solid transparent;
   border-radius: 100%;
   content: "";
@@ -152,7 +156,7 @@ h6 {
 .timeline-marker:after {
   content: "";
   width: 3px;
-  background: #ccd5db;
+  background: var(--body-text-color);
   display: block;
   position: absolute;
   top: 24px;
@@ -165,7 +169,7 @@ h6 {
 
 .timeline-item:not(.period):hover .timeline-marker:before {
   background: transparent;
-  border: 3px solid #4aa6c7;
+  border: 3px solid var(--timeline-marker-color);
 }
 
 /*----- TIMELINE CONTENT -----*/
@@ -193,7 +197,7 @@ h6 {
   top: 0;
   bottom: 30px;
   position: absolute;
-  border-top: 3px solid #ccd5db;
+  border-top: 3px solid var(--body-text-color);
 }
 .period .timeline-marker:after {
   content: "";
@@ -282,10 +286,10 @@ h6 {
   ----------------------------------------------*/
 .marker-outline .timeline-marker:before {
   background: transparent;
-  border-color: #ff6b6b;
+  border-color: var(--marker-outline-color);
 }
 .marker-outline .timeline-item:hover .timeline-marker:before {
-  background: #ff6b6b;
+  background: var(--marker-outline-color);
 }
 
 /*==================================

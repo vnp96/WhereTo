@@ -4,11 +4,8 @@
 <link rel="stylesheet" href="{{ url_for('static', filename = 'index.css')}}" />
 <style>
     {% if bgColor %}
-        .page-container {
-            background-color: {{ bgColor }};
-        }
-        .bg-container {
-            background-color: {{ bgColor }};
+        :root {
+            --bg-colour: {{ bgColor }};
         }
     {% endif %}
 </style>
