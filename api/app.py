@@ -20,7 +20,7 @@ app = Flask(__name__)
 dbConnection = BorgDB()
 attractionsFound = False
 loading_try = 0
-defaultColor = '#fffeec'
+globalColor = '#fffeec'
 
 
 def test_db_connection():
@@ -40,18 +40,18 @@ test_db_connection()
 def index():
     global attractionsFound
     global loading_try
-    global defaultColor
-    print("Color is now:"+defaultColor)
+    global globalColor
+    print("Color is now:" + globalColor)
     attractionsFound = False
     loading_try = 0
-    return render_template("index.html", color=defaultColor)
+    return render_template("index.html", color=globalColor)
 
 
 @app.errorhandler(404)
 @app.errorhandler(500)
 @app.errorhandler(504)
 def error_page(e=None):
-    return render_template("error.html", error=e)
+    return render_template("error.html", error=e, color=globalColor)
 
 
 @app.route("/loading", methods=["GET", "POST"])
@@ -64,7 +64,8 @@ def loading_page():
     thread.start()
 
     return render_template("loading.html",
-                           inputPostCode=post_code)
+                           inputPostCode=post_code,
+                           color=globalColor)
 
 
 @app.route("/change", methods=["GET"])
@@ -72,8 +73,8 @@ def change_color():
     # if request.method == "GET":
     #     return redirect("/", code=302)
     color = request.args.get("color")
-    global defaultColor
-    defaultColor = '#' + color
+    global globalColor
+    globalColor = '#' + color
 
     return redirect("/", code=302)
 
@@ -100,7 +101,8 @@ def attractions_page():
         return error_page()
 
     return render_template(
-        "attractions.html", post_code=postcode, attractions=attractions_list
+        "attractions.html", post_code=postcode,
+        attractions=attractions_list, color=globalColor
     )
 
 
@@ -127,7 +129,8 @@ def show_results():
         return render_template("results.html",
                                info=info.get_dict(),
                                duration=duration,
-                               legs=legs)
+                               legs=legs,
+                               color=globalColor)
     except KeyError:
         print("WARNING: Legs were not returned as part of request.")
         print(json.dumps(route_resp_dict, indent=4))
