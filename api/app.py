@@ -49,7 +49,8 @@ def index():
     global attractionsFound
     global loading_try
     global bgColor
-    print("Color is now:" + bgColor)
+    print("BGColor is now:" + bgColor)
+    print("FontColor is now:" + fontColor)
     attractionsFound = False
     loading_try = 0
     return render_template("index.html")
