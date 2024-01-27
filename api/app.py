@@ -20,7 +20,7 @@ app = Flask(__name__)
 dbConnection = BorgDB()
 attractionsFound = False
 loading_try = 0
-globalColor = '#fffeec'
+bgColor = '#fffeec'
 
 
 def test_db_connection():
@@ -37,7 +37,7 @@ test_db_connection()
 @app.context_processor
 def inject_globals():
     parameters = {
-        'color': globalColor
+        'bgColor': bgColor
     }
     return parameters
 
@@ -45,8 +45,8 @@ def inject_globals():
 def index():
     global attractionsFound
     global loading_try
-    global globalColor
-    print("Color is now:" + globalColor)
+    global bgColor
+    print("Color is now:" + bgColor)
     attractionsFound = False
     loading_try = 0
     return render_template("index.html")
@@ -77,8 +77,8 @@ def change_color():
     # if request.method == "GET":
     #     return redirect("/", code=302)
     color = request.args.get("color")
-    global globalColor
-    globalColor = '#' + color
+    global bgColor
+    bgColor = '#' + color
 
     return redirect("/", code=302)
 
