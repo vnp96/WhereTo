@@ -20,6 +20,7 @@ app = Flask(__name__)
 dbConnection = BorgDB()
 attractionsFound = False
 loading_try = 0
+defaultColor = '#fffeec'
 
 
 def test_db_connection():
@@ -34,13 +35,16 @@ def test_db_connection():
 test_db_connection()
 
 
+
 @app.route("/")
 def index():
     global attractionsFound
     global loading_try
+    global defaultColor
+    print("Color is now:"+defaultColor)
     attractionsFound = False
     loading_try = 0
-    return render_template("index.html")
+    return render_template("index.html", color=defaultColor)
 
 
 @app.errorhandler(404)
@@ -62,6 +66,16 @@ def loading_page():
     return render_template("loading.html",
                            inputPostCode=post_code)
 
+
+@app.route("/change", methods=["GET"])
+def change_color():
+    # if request.method == "GET":
+    #     return redirect("/", code=302)
+    color = request.args.get("color")
+    global defaultColor
+    defaultColor = '#' + color
+
+    return redirect("/", code=302)
 
 @app.route("/check_loading")
 def check_loading():

@@ -2,6 +2,11 @@
 
 {% block css %}
 <link rel="stylesheet" href="{{ url_for('static', filename = 'index.css')}}" />
+<style>
+.page-container {
+    background-color: {{ color }};
+}
+</style>
 {% endblock %}
 
 {% block body %}
